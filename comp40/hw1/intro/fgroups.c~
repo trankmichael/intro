@@ -1,0 +1,203 @@
+#include <stdio.h>
+#include <table.h>
+#include <stdlib.h>
+#include <ctype.h>
+#include <set.h>
+#include <atom.h>
+#include <seq.h>
+#include <str.h>
+#include <list.h>
+
+typedef struct
+{
+       char* fp;
+       char* name;
+} fpPair;
+
+void read_all( Table_T );
+fpPair read_line();
+int Table_add( Set_T nameSet, Table_T fpTable , fpPair pair);
+int find_name( char *buffer, int fpEnd);
+void Table_add_helper( Table_T , fpPair );
+void print( Table_T );
+static void apply_Table_print( const void * , void ** , void *);
+static void apply_List_print( void ** , void *);
+static void apply_List_free( void ** ptr, void* cl);
+void add_new_line( char* name );
+
+
+const int initTableSize = 10;
+const int initSetSize = 20;
+const int initSeqSize = 10; 
+const int maxFpSize = 512;
+const int bufferSize = 50000;
+const int badLine = -500;
+
+
+int main( int argc, char *argv[])
+{
+
+       (void) argc;
+       (void) argv;
+
+       Table_T fpTable = Table_new( initTableSize, NULL, NULL );
+
+       read_all( fpTable );
+       print( fpTable);
+       Table_free(&fpTable);
+       return 0;
+}
+
+
+void print( Table_T fpTable )
+{   
+   
+        // CLOSURE PREVENTS PRINTING OF NEW LINE BEFORE FIRST FGROUP
+        int *cl = malloc(sizeof(*cl));
+        *cl = 1;    
+        Table_map(fpTable, apply_Table_print, cl);
+        free (cl);
+}
+
+static void apply_Table_print( const void * key, void ** names, void *cl)
+{
+        (void) key;
+        if( List_length(*names) > 1 ){ 
+                if( *(int *) cl != 1 ){
+                        printf("\n");
+                }
+                List_map(*names, apply_List_print, NULL);
+                (*(int *) cl)--;
+        }
+
+        List_map( *names , apply_List_free, NULL );
+        List_free((List_T *)names);
+}
+
+static void apply_List_free( void ** ptr, void* cl)
+{
+        free(*ptr);
+        (void) cl;
+}
+static void apply_List_print( void ** name, void *cl)
+{
+        printf(*name);
+        (void) cl;
+}
+
+void read_all( Table_T fpTable )
+{
+       Set_T nameSet = Set_new( initSetSize, NULL, NULL ); 
+
+       fpPair pair;
+
+        while( !feof(stdin) )
+        {      
+                pair = read_line();
+                if( ( pair.name != NULL ) ) {
+                        Table_add( nameSet, fpTable, pair );
+                }
+                else{
+                        free (pair.fp);
+                }
+        }
+        Set_free(&nameSet);
+}
+
+int Table_add( Set_T nameSet, Table_T fpTable, fpPair pair)
+{
+       const char * nameAtom = Atom_string(pair.name);
+
+
+        if( !Set_member( nameSet, nameAtom) )
+        {
+               Set_put( nameSet, nameAtom);
+               Table_add_helper( fpTable, pair );
+               return 1;
+        }
+        else{
+                free( pair.fp);
+                free( pair.name);
+                return 0;
+        }
+}
+
+void Table_add_helper( Table_T fpTable, fpPair pair )
+{
+        List_T names = NULL;
+        const char * fpAtom = Atom_string(pair.fp);
+        free( pair.fp );
+
+        if( Table_get( fpTable, fpAtom ) != NULL ){       
+               names = Table_get( fpTable, fpAtom );
+        }
+       
+       names = List_push( names, pair.name);
+       Table_put( fpTable, fpAtom, names );
+}
+
+fpPair read_line()
+{
+        // initializing vars
+        fpPair pair;
+        pair.fp = NULL ;
+        pair.name = NULL; 
+        char *buffer = malloc( bufferSize * sizeof( char ) );
+        int fpEnd;
+ 
+        fgets( buffer, bufferSize, stdin );
+
+        fpEnd = Str_find( buffer, 1, 0 , " ");
+        pair.fp = Str_dup( buffer, 1, fpEnd, 1 );
+        if( ( fpEnd == 0 ) || find_name( buffer, fpEnd ) == badLine ){
+                free (buffer);
+                return pair;
+        }
+        pair.name = Str_dup( buffer, find_name( buffer, fpEnd ), 0 , 1);
+
+       // add_new_line( pair.name );
+        //adding a newline to names without newline. 
+        if ( (Str_rfind(pair.name,1,0,"\n") == 0) ) {   
+                char* temp = pair.name;
+                pair.name = Str_cat(pair.name,1,0, "\n",1,0);
+                free (temp);
+        }
+
+        free (buffer);
+        return pair;
+
+}
+
+void add_new_line( char* name )
+{
+        if ( (Str_rfind(name,1,0,"\n") == 0) ) {   
+                char* temp = name;
+                name = Str_cat(name,1,0, "\n",1,0);
+                free (temp);
+        }
+}
+
+// Purpose: ignores whitespace after fp and returns index of the 
+//          first char in the name
+int find_name( char *buffer, int fpEnd )
+{
+        int index = fpEnd - 1;     // handling Hansons string index
+                                  // convention vs standard c indeces
+        char check = buffer[index];
+        printf("index: %i \n", index );
+        printf("CHAR:ll%cll \n",check);
+        int count = 0;
+        
+        while( isspace(check) ){
+                if( check == '\n' ){
+                        return badLine;
+                }
+                index++;
+                count++;
+                check = buffer[index];
+        }
+
+       
+        return count + fpEnd;
+        
+}

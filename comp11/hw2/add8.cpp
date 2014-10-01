@@ -1,0 +1,44 @@
+// 	
+//
+//	filename: add8.cpp
+//	Purpose: add up eight floating point numbers
+//
+//	last edited by: Michael Tran
+//	last edited on: January 29, 2013
+//
+//
+
+#include <iostream>
+
+using namespace std;
+
+int main ()
+{
+	float num;
+    	float sum;	
+
+    	// asks user for eight numbers 
+    	cout << "Please enter eight numbers:" << endl;
+	
+	// takes in each input num and adds to sum 
+	// does this 8 times
+	cin >> num;
+	sum = sum + num;
+	cin >> num;
+	sum = sum + num;
+	cin >> num;
+	sum = sum + num;
+	cin >> num;
+	sum = sum + num;
+	cin >> num;
+	sum = sum + num;
+	cin >> num;
+	sum = sum + num;
+	cin >> num;
+	sum = sum + num;
+	cin >> num;
+	sum = sum + num;
+	cout << sum << endl;
+
+	return 0;
+}

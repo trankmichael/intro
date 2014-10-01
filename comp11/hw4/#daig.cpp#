@@ -1,0 +1,12 @@
+#include <iostream>
+using namespace std;
+
+int main()
+{
+
+    int height;
+    string first;
+    string second;
+
+    cout << "First string ?";
+    cin >>GT-J27

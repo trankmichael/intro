@@ -1,0 +1,165 @@
+/*
+	Purpose: simulate a factory, with a queue of Packages and workers
+	Tufts University Comp 15
+	HW3 
+	Last Edited On: October 18, 2013
+*/
+
+Package Struct
+	-a string which represents the order number of the package
+	-an int which is the number of work units required to finish the package
+	-an int which is the time the package arrived on the queue
+	-a double which is the total amount a package has been worked on so far
+
+Assembly Line Object
+	Public Functions:
+		-default constructor which:
+			-initializes capacity to a size set in the header
+			-creates a new array of Package of that size called packages
+			-sets the unitsWorked member to zero in all the array elements
+			-sets the back of the queue to be at space zero
+			-sets the front of the queue to be at space zero 
+		-work function:
+			-return a bool if the sum of all work done on a package is 
+			 greater than the number of workUnits required on the project
+			-first checks if the queue is empty
+				-if false:
+				 	- false, is returned because no package is finished
+				-if true:
+					- first, adds to the package member unitsWorked which 
+					  keeps track of how much a package has been worked on
+					  	adds the argument of workUnits which represents
+					  	how much work the factory can perform and how much
+					  	to increment unitsWorked by
+					- second, checks if the unitsWorked is greater than or 
+					  equal to the total workUnits required to finish an 
+					  order
+					  	- if true:
+					  		-the first package is printed
+					  		-the first package is dequeued
+					  	- if false:
+					  		-false is returned, there was no order finished
+		-dequeueFront function:
+			-returns a bool true or false
+			-the queue is empty false is returned
+			-first calls isEmpty to check before a package is dequeued
+			-if isEmpty is true false is returned
+			-otherwise the package is dequeued, this is done by just moving
+			 front to the next space in the array	
+		-enqueue function:
+			-function which just adds a new package to the end of the queue
+			-the package is added where back is - an empty space -
+			-back is incremented to be the next space. if there is no empty 
+			 space back will equal head and the queue must be expanded
+			-if the queue is full it will expand the queue
+		-print function: 
+			-only used for testing in main.cpp to check if the
+			 queue was being sorted and expanded correctly
+
+
+	Private Functions:
+		-printFront function:	
+			-this is a private void function which just prints out the first
+			 element in the proper formate
+			 	ex output:
+			 		" Package order number S001 with 9 units arrived at 
+			 		  time 9 and left at time "
+			 	-note that the time of departure is not printed here but it 
+			 	 is printed in the factory object where the present time is
+			 	 stored
+		-expandLine
+			-expands the queue by a factor determined in the header
+			-a new dynamic array is made called temp
+			-the first loop copies the queue in order into the new empty 
+			 temp array
+			-the next loop sets all the empty new spaces unitsWorked to zero
+			 note it starts doing this at the first empty space to retain 
+			 the data of unitsWorked on the other objects
+		-isEmpty function which:
+			-returns a bool
+				-it is true if the queue is empty
+				-it is false if otherswise
+			-calls the function size() which returns an integer of how 
+			 long the queue is, if it is zero then the queue is empty
+		-size function:
+			-returns an int which is the count of how many packages in the 
+			 queue
+			-computes the size, by subtracting front from back and adding 
+			 capacity. then the mod operator is called to get the remainder
+			 of the sum with respect to capacity
+
+Factory Object:
+	Public Functions
+		-default constructor
+			-allocates memory for a new dynamic array of Package
+			 called packages, of a size determined in the header
+			-allocates memory for a new AssemblyLine object called
+			 line
+			-sets private member capacity to the initial size
+			-sets private member nbrPackages which keeps track of
+			 how many packages are in the factory
+		-run 
+			-calls private function readin to store all the input
+			-calls work to actually run and simulate each time unit
+			 passing
+	Private Functions
+		-readin 
+			-reads in and stores all input, the unnecessary data 
+			 in the format get stored in variable ignore
+			-the important data, units, order number, and time
+			 arrived are all stored in the packages array to be 
+			 added to the queue.after number of packages member is 
+			 incremented
+			-does this as long as the end of the file has not been
+			 read
+			-once the end of the file has been read the loop with 
+			 iterate one more time storing unnecessary data
+				-to adjust for the effects of this number of 
+				 packages is decremented by one
+		-work
+			-does two things in this order, works on the first
+			 package in the queue, adds packages to the queue
+			-repeats for each time incrementation starting at zero
+			 until the number of packages processed is equal to 
+			 amount of packages in the factory
+			-Doing work on the first package:
+				-the assembly line work public function is called
+				 this does work on the first package in queue
+				-if the work package returns true than a package
+				 has been finished, therefor time is printed 
+				 and the variable storying the amount of packages 
+				 processed is incremented
+			-Adding a package;
+				-for each time unit, the whole array of packages 
+				 to be added is checked for any package with a 
+				 matching time arrived
+				-if this is true the package is enqueued in queue 
+		-expand
+			-expands the dynamic array of packages while retaining
+			 the old packages
+		-workUnits
+			-computes work units by keeping a variable workFac
+			 which is the summation of each space in the rates 
+			 array for a set number of workers
+
+
+Testing: 
+	AssemblyLine:
+		main.cpp: has been provided
+			-in main you can set:
+				the number of packages to be added
+				the frequency that packages are dequed
+				a starting id number
+			-this was used solely to check that AssemblyLine
+			 could expand multiply times, and the correct Packages
+			 were being dequeued in the correct order 
+
+			unix command: g++ main.cpp AssemblyLine.cpp
+						  ./a.out	
+
+	Factory:
+		-used the testing process provide
+		-no bugs were noticed 
+		-the number of packages was increased to large amounts
+		 with no abnormalities
+	

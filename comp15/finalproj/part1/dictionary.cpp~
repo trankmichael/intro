@@ -1,0 +1,28 @@
+#include <"dictionary.h">
+
+Dictionary::Dictionary()
+{
+    root = new Node;
+    newChild( root );
+}
+   
+   
+bool Dictionary::isPrefix()
+   
+bool Dictionary::isWord()
+{
+    
+}
+ 
+bool Dictionary::insert()
+{
+    
+}
+void Dictionary::newChild( Node s )
+{
+    for( int i = 0; i < ALPH; i++ )
+    {
+	s->children[i] = NULL;
+    }
+}
+

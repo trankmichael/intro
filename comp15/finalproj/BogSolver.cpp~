@@ -1,0 +1,27 @@
+#include "BogSolver.h"
+
+#include <iostream>
+#include <queue>
+#include <stack>
+
+using namespace std;
+
+BogSolver::BogSolver()
+{
+
+}
+
+bool BogSolver::readDict()
+{
+	
+}
+
+bool BogSolver::readBoard()
+{
+	
+}
+
+bool BogSolver::solve()
+{
+	board.solve( dict );
+}

@@ -1,0 +1,135 @@
+/******************************************************************************
+ * segments.h
+ * Universal Machine - Homework 6
+ * By: Jon Arbaugh and Michael Tran
+ *
+ * This file is the interface to the segmented memory
+ *****************************************************************************/
+
+#include <stdlib.h>
+#include <assert.h>
+#include <stdio.h>
+#include "segments.h"
+#include "seq.h"
+#include "set.h"
+
+#define T SegMem_T
+
+int cmp(const void *x, const void *y);
+unsigned hash(const void *x);
+
+struct T {
+        Seq_T segments;
+        Set_T mapped_ids;
+        Set_T unmapped_ids;
+};
+
+/*
+ * Creates a new SegMem_T and returns the pointer to it
+ */
+T Seg_new()
+{
+        T mem = malloc(sizeof(T));
+        mem->segments = Seq_new(2);
+        mem->mapped_ids = Set_new(2, cmp, hash);
+        mem->unmapped_ids = Set_new(2, cmp, hash);
+        return mem;
+}
+
+/*
+ * Return the value at seg_id and offset
+ */
+uint32_t Seg_load(T mem, uint32_t seg_id, uint32_t offset)
+{
+        assert(mem);
+        Seq_T segment = Seq_get(mem->segments, seg_id);
+        return *(uint32_t*)Seq_get((void*)segment, offset);
+}
+
+/*
+ * Take the value and store
+ * it in seg_id and offset
+ */
+void Seg_store(T mem, uint32_t value, uint32_t seg_id, uint32_t offset)
+{
+        assert(mem);
+        uint32_t valCopy = value;
+        Seq_T segment = Seq_get(mem->segments, seg_id);
+        Seq_put(segment, offset, &valCopy);
+}
+
+/*
+ * Create a new segment with the length specified
+ * with either an unmapped index or a new index
+ * Each word is initialized to 0
+ * The ID of the new segment is returned
+ */
+uint32_t Seg_map(T mem, uint32_t length)
+{
+        assert(mem);
+        if (Set_length(mem->unmapped_ids) > 0) {
+                uint32_t** unmapped_array = (uint32_t**)Set_toArray(
+                        mem->unmapped_ids,
+                        NULL);
+                uint32_t* id = unmapped_array[0];
+                Set_remove(mem->unmapped_ids, id);
+                Set_put(mem->mapped_ids, id);
+                Seq_T segment = Seq_new(length);
+                Seq_put(mem->segments, *id, segment);
+                free(unmapped_array);
+                return *id;
+        } else {
+                uint32_t index = Seq_length(mem->segments);
+                Seq_T segment = Seq_new(length);
+                Seq_addhi(mem->segments, segment);
+                Set_put(mem->mapped_ids, &index);
+                return Seq_length(mem->segments) - 1;
+        }
+}
+
+/*
+ * Unmaps the segment identified by seg_id
+ * The ID may be reused when a new segment is mapped
+ */
+void Seg_unmap(T mem, uint32_t id)
+{
+        assert(mem);
+        uint32_t *index = Set_remove(mem->mapped_ids, &id);
+        fprintf(stdout, "%d\n", Seq_length(mem->segments));
+        assert(index);
+        Set_put(mem->unmapped_ids, index);
+        Seq_T segment = Seq_get(mem->segments, *index);
+        Seq_free(&segment);
+}
+
+/*
+ * Frees the SegMem_T
+ */
+void Seg_free(T *mem)
+{
+        assert(mem);
+        int i = 0;
+        int length = Seq_length((*mem)->segments);
+        for (i = 0; i < length; i++) {
+                if (Set_member((*mem)->mapped_ids, &i) == 1) {
+                        Seq_T segment = Seq_get((*mem)->segments, i);
+                        free(segment);
+                }
+        }
+        Seq_free(&((*mem)->segments));
+        Set_free(&((*mem)->unmapped_ids));
+        Set_free(&((*mem)->mapped_ids));
+        free((*mem));
+}
+
+int cmp(const void *x, const void *y)
+{
+        int a = *(int*)x;
+        int b = *(int*)y;
+        return (a == b ? 0 : (a > b ? 1 : -1));
+}
+
+unsigned hash(const void *x)
+{
+        return *(int*)x;
+}

@@ -1,0 +1,30 @@
+A2Methods_UArray2 compress40( FILE * fp ) 
+{ 
+        A2Methods_T methods = uarray2_methods_plain;
+        assert(methods);
+        Pnm_ppm image = Pnm_ppmread( fp, methods );
+
+        A2Methods_UArray2 compressed;
+        List_T code_words = NULL; 
+        int com_width;
+        int com_height;
+
+        
+//         fprintf( stderr, " red: %d ", ((Pnm_rgb)image->methods->at(image->pixels, 0, 0))->red );
+//         fprintf( stderr, " blue: %d ", ((Pnm_rgb)image->methods->at(image->pixels, 0, 0))->blue );
+//         fprintf( stderr, " green: %d ", ((Pnm_rgb)image->methods->at(image->pixels, 0, 0))->green );
+        com_width = image->methods->width( image->pixels ) / 2;
+        com_height = image->methods->height( image->pixels ) / 2;
+
+// testing right now 
+        compressed = image->methods->new(com_width, com_height, sizeof(compvid_block));
+        image->methods->map_row_major( compressed, &apply_compress, &image );
+
+        return compressed;
+        // image->methods->map_row_major( compressed, &apply_decompress, &dec );
+
+        // Pnm_ppmwrite(stdout, compressed);
+        // image->methods->map_row_major( compressed, &apply_pack, code_words );
+        (void) code_words;
+ 
+}

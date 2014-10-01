@@ -1,0 +1,55 @@
+
+//Classes, Objects
+   -template in accordance to which objects are created
+   -includes data specifications and functions
+   -functions are called methods/member functions
+   -variables used in the class are called data members
+   -objects are like black boxes whose behavoior is well defined, but you cant see what they do
+   -because of this since you know what objects take in and what they give out they can easily be replaced by other objects
+   -e.g. some objects can perform the same task differently but more efficiently and quickly than other objects
+   -PUBLIC PARTS: what the user sees, that they can use to invoke other private operations
+   -"&" dereferences a variable to give its locations. by doing this you can asign
+   	+ *p = i vs p = &i
+   -p = new int; // tells the computer to set apart a space for a new int with 
+		 // the address of p
+		 
+//POINTERS
+   -int a[5], *p; // sets up a pointer to a block of memory that holds five integers
+      - *x  : pointed by x
+      - &x  : address of x
+      - x.y : member y of object x
+      - x-> : member y of object pointed by x
+      - x[0]: first object pointed by x
+      - x[n]: (n+1)th object pointed by x
+      
+//Dynamic Memory
+   -use the operators NEW and DELETE
+   -  {int * bobby;
+      bobby = new int[5];}
+      - this example dynamically allocates space for five elements of type int and assigns it to the pointer bobby
+   -bobby[0], bobby[1], or *(bobby+1) 
+   -  { delete pointer;
+        delete [] pointer;}
+      - this is used to delete and free space 
+
+//ARRAYS
+   - you cannot
+         - use an array as a value parameter for a function
+         - returna na array value from a function
+         - assign one array to another
+            -[TO DO ALL THESE YOU MUST USE A POINTER TO THE ARRAY]
+   -array sizes are static and fixed at compile time unless dynamic memory is specifically alocated
+   -pointers to arrays or defined by "T* ptr;" where T is the type of variable held in the array
+   -in C++ when an array is allocated two things happen
+      -First memory is allocated from the heap
+      -Then each element of the array is initialized by its default constructor
+
+   *Default Constructor:
+      -"T::T()" default constructor of an object of class t
+   *Array Member Functions
+      -Data, Base,  Length
+   *Resizing an Array
+
+
+//Linked Lists
+   -

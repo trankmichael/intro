@@ -1,0 +1,58 @@
+ReadMe
+Purpose: solve boggle, check boggle, and score boggle
+For: COMP 15: Data Structures Tufts University
+Last Modified: December 12, 2013
+
+BogSolver
+	- takes in user input
+		-first the user inputs a dictionary, which is a list of words added
+		 and checked if they are on the board
+		-next the user inputs the board dimensions followed by strings
+		-BogSolver then makes a board of those dimensions with the letters 
+		 from the strings in each respective space
+	-solves the board
+		-loops through each of the boards spaces as a starting point for 
+		 possible words
+		-from the starting point a recursive function is called
+		 this function checks all of the neighbors of that point and adds them 
+		 to a word. If the word is a prefix of a word in the dictionary the 
+		 process continues, with that letters neighbors.
+		-To prevent visiting the same letter twice for the same word markers
+		 were used. After all the possible words starting with a certain letter
+		 were found all the spaces were the unmarked once again
+	-prints out all the words
+		-it does this in HBF format which is with coordinates for each letter
+		-it does not print repeat letters 
+		-treats Q as the letters QU and handles the lengths in that manner 
+
+	Note: There is a seg fault in the bogLetts array expand function
+
+BogValidator
+	-uses BogSolver for most of the work
+	-reads in a dictionary which is passed to the solver
+	-does not actually store a board it just passes it to the solver
+	-checks if a string is valid by seeing if it is present in the found 
+	 list of the solver
+	-checks a list of words by checking if they are the dictionary of stored
+	 words in the solver
+	-contains a dynamic array of strings which much be checked by the validator
+
+BogScorer
+	-reads in a list which is what would be outputted by the validator
+	-calculates the score based on the length of the inputted in string
+	-checks not to double score if a word is inputted twice by using 
+	 a dictionary
+	-It is not its own class just done in main and compiled into an executable
+	 file bbscorer
+
+Compiling:
+
+g++ -Wall -Wextra -g solvermain.cpp BogSolver.cpp dictionary.o -o bbsolver 
+g++ -Wall -Wextra -g cherckermain.cpp BogValidator.cpp Bogsolver.cpp 
+	dictionary.o -o bbchecker
+g++ -Wall -Wextra -g scorermain.cpp dictionary.o -o bbscorer
+
+Running:
+./bbsolver < " input text file " 
+./bbchecker < " input text file " 
+./bbscorer < " input text file " 

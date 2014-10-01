@@ -1,0 +1,10 @@
+ 			Space	 years[SPACE]    avg	 sum     years[SPACE] != SENTINEL
+value before loops    |   0   |       8       |   ?   |   0   |            True		  |
+Value at second test  |   1   |      10       |   ?   |   8   |		   True		  |
+Value at third test   |   2   |       3       |   ?   |  18   |		   True		  |
+Value at fourth test  |   3   |       2       |   ?   |  21   |		   True		  |
+Value at fifth test   |   4   |       9       |   ?   |  23   |		   True		  |
+Value at sixth test   |   5   |       0       |   ?   |  32   |		  False		  |
+Value post-sixth test |   5   |       0       |  6.4  |  32   |		  False		  |
+
+

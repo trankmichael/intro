@@ -1,0 +1,6 @@
+   pb in 4 
+   pr in 11 
+   a in 251 
+   b in 0 
+   c in 0 
+   d in 0 

@@ -1,0 +1,57 @@
+With luck you will have access to two sets
+of image rotators.  
+
+
+About Image Rotation 1:
+
+  - For a 180-degree fast rotation, what fraction of instructions are
+    spent in input and output and what fraction in rotation?
+
+  - For a 180-degree *blocked* rotation (if you have one), what
+    fraction of instructions are spent in input and output and what
+    fraction in rotation?
+
+About Image Rotation 2:
+
+  - For a 180-degree fast rotation, what fraction of instructions are
+    spent in input and output and what fraction in rotation?
+
+  - For a 180-degree *blocked* rotation (if you have one), what
+    fraction of instructions are spent in input and output and what
+    fraction in rotation?
+
+
+UNBLACKEDGES
+
+Please put answers to questions here.
+
+
+  - What fraction of time is spent in I/O as compared with removing
+    black edges?
+
+	~60.1% spent on I/O.
+	~39.9% spent on removing black edges
+  
+  - How long does
+  
+       time ./unblack-edges 
+  
+    take?
+
+	.013s
+  
+  - After making changes requested in the lab handout (steps 1-4), what
+    happened to the total time?
+
+	.009s
+	The total time decreased by about 33%.
+  
+  - What happened to the fraction of time spent in Bit_put?
+
+	It decreased by .04%.
+  
+  - Since the implementation of Bit_put has not been improved, what has
+    changed?
+  
+	The algorithm to find black edges has been improved to use a queue
+	instead. This involves less calls to bitput and lowers the overhead.

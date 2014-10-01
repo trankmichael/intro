@@ -1,0 +1,43 @@
+typedef char ElementType;
+#include "sortedlistL.h"
+
+sequenceL::sequenceL()
+{
+    head = NULL;
+    size = 0;
+}
+
+sequenceL::sequenceL( ElementType x )
+{
+    Node* nodeX = new Node;
+    nodeX->value = x;
+    nodeX->next = NULL;
+    head = nodeX;
+    size = 1;
+}
+
+bool sequenceL::isEmpty()
+{
+    if( size == 0 ){
+         return true;
+    }
+
+    else{
+         return false;
+    }
+
+}
+
+void sequenceL::concatenate( Node* sequenceAdded )
+{
+    
+
+
+}
+
+int sequenceL::size( Node* listCounted )
+{
+
+
+
+}

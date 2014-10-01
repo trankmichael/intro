@@ -1,0 +1,388 @@
+:::: Test test1-A :::::
+==========v Constructor Tests v=======
+test print size for 1-item list
+Expected Size: 1 
+Size: 1
+==========^ Constructor Tests ^=======
+
+==========v isEmpty Tests v=======
+==========^ isEmpty Tests ^=======
+
+==========v print() Tests v=======
+test print for 1-item list
+Expected: a returned: a 
+
+==========^ print() Tests ^=======
+
+==========v size() Tests v=======
+==========^ size() Tests ^=======
+
+==========v first() Tests v=======
+==========^ first() Tests ^=======
+==========v rest() Tests v=======
+
+Expected: 1 
+Result: 1Expected: 1 
+Result: 1Expected: 4 b's
+Result: b b b b 
+==========^ rest() Tests ^=======
+
+==========v concatenate() Tests v=======
+test Concatenate Empty to Empty Expected: empty 
+Result: 
+
+test Concatenate Empty to Regular ( length 1 ) Expected: a 
+Result: a 
+
+test Concatenate Regular to Regular ( lengths 1 ) Expected: a b
+Result: a b 
+
+test Concatenate to ITSELF Expected: a a 
+Result: a a 
+
+==========^ concatenate() Tests ^=======
+
+==========v expand Testsv=======
+test expand(concat another sequence n times
+expected: a followed by 1000 b's returned: a b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b 
+
+==========^ expand Tests^=======
+
+
+:::: Test test1-L :::::
+==========v Constructor Tests v=======
+test print size for 1-item list
+Expected Size: 1 
+Size: 1
+==========^ Constructor Tests ^=======
+
+==========v isEmpty Tests v=======
+==========^ isEmpty Tests ^=======
+
+==========v print() Tests v=======
+test print for 1-item list
+Expected: a returned: a 
+
+==========^ print() Tests ^=======
+
+==========v size() Tests v=======
+==========^ size() Tests ^=======
+
+==========v first() Tests v=======
+==========^ first() Tests ^=======
+==========v rest() Tests v=======
+
+Expected: 1 
+Result: 1Expected: 1 
+Result: 1Expected: 4 b's
+Result: b b b b 
+==========^ rest() Tests ^=======
+
+==========v concatenate() Tests v=======
+test Concatenate Empty to Empty Expected: empty 
+Result: 
+
+test Concatenate Empty to Regular ( length 1 ) Expected: a 
+Result: a 
+
+test Concatenate Regular to Regular ( lengths 1 ) Expected: a b
+Result: a b 
+
+test Concatenate to ITSELF Expected: a a 
+Result: a a 
+
+==========^ concatenate() Tests ^=======
+
+==========v expand Testsv=======
+test expand(concat another sequence n times
+expected: a followed by 1000 b's returned: a b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b 
+
+==========^ expand Tests^=======
+
+
+:::: Test test2-A :::::
+==========v Constructor Tests v=======
+test print size for 1-item list
+Expected Size: 1 
+Size: 1
+==========^ Constructor Tests ^=======
+
+==========v isEmpty Tests v=======
+==========^ isEmpty Tests ^=======
+
+==========v print() Tests v=======
+test print for 1-item list
+Expected: a returned: a 
+
+==========^ print() Tests ^=======
+
+==========v size() Tests v=======
+==========^ size() Tests ^=======
+
+==========v first() Tests v=======
+==========^ first() Tests ^=======
+==========v rest() Tests v=======
+
+Expected: 1 
+Result: 1Expected: 1 
+Result: 0Expected: 4 b's
+Result: b 
+==========^ rest() Tests ^=======
+
+==========v concatenate() Tests v=======
+test Concatenate Empty to Empty 
+:::: Test test2-L :::::
+==========v Constructor Tests v=======
+test print size for 1-item list
+Expected Size: 1 
+Size: 1
+==========^ Constructor Tests ^=======
+
+==========v isEmpty Tests v=======
+==========^ isEmpty Tests ^=======
+
+==========v print() Tests v=======
+test print for 1-item list
+Expected: a returned: a 
+==========^ print() Tests ^=======
+
+==========v size() Tests v=======
+==========^ size() Tests ^=======
+
+==========v first() Tests v=======
+==========^ first() Tests ^=======
+==========v rest() Tests v=======
+
+Expected: 1 
+
+:::: Test test3-A :::::
+==========v Constructor Tests v=======
+test print size for 1-item list
+Expected Size: 1 
+Size: 1
+==========^ Constructor Tests ^=======
+
+==========v isEmpty Tests v=======
+==========^ isEmpty Tests ^=======
+
+==========v print() Tests v=======
+test print for 1-item list
+Expected: a returned: a 
+
+==========^ print() Tests ^=======
+
+==========v size() Tests v=======
+==========^ size() Tests ^=======
+
+==========v first() Tests v=======
+==========^ first() Tests ^=======
+==========v rest() Tests v=======
+
+Expected: 1 
+Result: 1Expected: 1 
+Result: 1Expected: 4 b's
+Result: b b b b 
+==========^ rest() Tests ^=======
+
+==========v concatenate() Tests v=======
+test Concatenate Empty to Empty Expected: empty 
+Result: 
+
+test Concatenate Empty to Regular ( length 1 ) Expected: a 
+Result: a 
+
+test Concatenate Regular to Regular ( lengths 1 ) Expected: a b
+Result: a b 
+
+test Concatenate to ITSELF Expected: a a 
+Result: a a 
+
+==========^ concatenate() Tests ^=======
+
+==========v expand Testsv=======
+test expand(concat another sequence n times
+expected: a followed by 1000 b's returned: a b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b 
+
+==========^ expand Tests^=======
+
+
+:::: Test test3-L :::::
+==========v Constructor Tests v=======
+test print size for 1-item list
+Expected Size: 1 
+Size: 1
+==========^ Constructor Tests ^=======
+
+==========v isEmpty Tests v=======
+==========^ isEmpty Tests ^=======
+
+==========v print() Tests v=======
+test print for 1-item list
+Expected: a returned: a 
+
+==========^ print() Tests ^=======
+
+==========v size() Tests v=======
+==========^ size() Tests ^=======
+
+==========v first() Tests v=======
+==========^ first() Tests ^=======
+==========v rest() Tests v=======
+
+Expected: 1 
+Result: 1Expected: 1 
+Result: 1Expected: 4 b's
+Result: b b b b 
+==========^ rest() Tests ^=======
+
+==========v concatenate() Tests v=======
+test Concatenate Empty to Empty Expected: empty 
+Result: 
+
+test Concatenate Empty to Regular ( length 1 ) Expected: a 
+Result: a 
+
+test Concatenate Regular to Regular ( lengths 1 ) Expected: a b
+Result: a b 
+
+test Concatenate to ITSELF Expected: a a 
+Result: a a 
+
+==========^ concatenate() Tests ^=======
+
+==========v expand Testsv=======
+test expand(concat another sequence n times
+expected: a followed by 1000 b's returned: a b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b b 
+
+==========^ expand Tests^=======
+
+
+:::: Test test4-A :::::
+==========v Constructor Tests v=======
+test print size for 1-item list
+Expected Size: 1 
+Size: 1
+==========^ Constructor Tests ^=======
+
+==========v isEmpty Tests v=======
+==========^ isEmpty Tests ^=======
+
+==========v print() Tests v=======
+test print for 1-item list
+Expected: a returned: a
+
+==========^ print() Tests ^=======
+
+==========v size() Tests v=======
+==========^ size() Tests ^=======
+
+==========v first() Tests v=======
+==========^ first() Tests ^=======
+==========v rest() Tests v=======
+
+Expected: 1 
+Result: 1Expected: 1 
+Result: 1Expected: 4 b's
+Result: bbbb
+==========^ rest() Tests ^=======
+
+==========v concatenate() Tests v=======
+test Concatenate Empty to Empty Expected: empty 
+Result: 
+:::: Test test4-L :::::
+==========v Constructor Tests v=======
+test print size for 1-item list
+Expected Size: 1 
+Size: 1
+==========^ Constructor Tests ^=======
+
+==========v isEmpty Tests v=======
+==========^ isEmpty Tests ^=======
+
+==========v print() Tests v=======
+test print for 1-item list
+Expected: a returned: a
+
+==========^ print() Tests ^=======
+
+==========v size() Tests v=======
+==========^ size() Tests ^=======
+
+==========v first() Tests v=======
+==========^ first() Tests ^=======
+==========v rest() Tests v=======
+
+Expected: 1 
+
+:::: Test test5-A :::::
+==========v Constructor Tests v=======
+test print size for 1-item list
+Expected Size: 1 
+Size: 1
+==========^ Constructor Tests ^=======
+
+==========v isEmpty Tests v=======
+==========^ isEmpty Tests ^=======
+
+==========v print() Tests v=======
+test print for 1-item list
+Expected: a returned: a
+
+==========^ print() Tests ^=======
+
+==========v size() Tests v=======
+==========^ size() Tests ^=======
+
+==========v first() Tests v=======
+==========^ first() Tests ^=======
+==========v rest() Tests v=======
+
+Expected: 1 
+
+:::: Test test6-A :::::
+==========v Constructor Tests v=======
+test print size for 1-item list
+Expected Size: 1 
+Size: 1
+==========^ Constructor Tests ^=======
+
+==========v isEmpty Tests v=======
+==========^ isEmpty Tests ^=======
+
+==========v print() Tests v=======
+test print for 1-item list
+Expected: a returned: a 
+
+==========^ print() Tests ^=======
+
+==========v size() Tests v=======
+==========^ size() Tests ^=======
+
+==========v first() Tests v=======
+==========^ first() Tests ^=======
+==========v rest() Tests v=======
+
+Expected: 1 
+Result: 1Expected: 1 
+Result: 1Expected: 4 b's
+Result: b b b b 
+==========^ rest() Tests ^=======
+
+==========v concatenate() Tests v=======
+test Concatenate Empty to Empty Expected: empty 
+Result: 
+
+test Concatenate Empty to Regular ( length 1 ) Expected: a 
+Result: a 
+
+test Concatenate Regular to Regular ( lengths 1 ) Expected: a b
+Result: a b 
+
+test Concatenate to ITSELF Expected: a a 
+Result: a a 
+
+==========^ concatenate() Tests ^=======
+
+==========v expand Testsv=======
+test expand(concat another sequence n times
+

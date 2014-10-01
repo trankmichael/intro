@@ -1,0 +1,44 @@
+/******************************************************************************
+ * segments.h
+ * Universal Machine - Homework 6
+ * By: Jon Arbaugh and Michael Tran
+ *
+ * This file is the interface to the segmented memory
+ *****************************************************************************/
+
+#ifndef SEGMENTS
+#define SEGMENTS
+
+#include <stdint.h>
+
+#define T SegMem_T
+typedef struct T *T;
+
+/*
+ * Load the value at Segment id b and offset c
+ * Store in a
+ */
+void seg_load(T mem,uint32_t *a, uint32_t *b, uint32_t *c);
+
+/*
+ * Take the value in register c and store
+ * it in Segment id a and offset b
+ */
+void seg_store(T mem, uint32_t *a, uint32_t *b, uint32_t *c);
+
+/*
+ * Create a new segment with the length specified in $r[C]
+ * with either an unmapped index or a new index
+ * Each word is initialized to 0
+ * The ID of the new segment is stored in $r[B]
+ */
+void seg_map(T mem, uint32_t *c, uint32_t *b);
+
+/*
+ * Unmaps the segment identified by the ID in register c
+ * The ID may be reused when a new segment is mapped
+ */
+void seg_unmap(T mem, uint32_t *c);
+
+#undef T
+#endif

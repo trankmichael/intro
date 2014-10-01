@@ -1,0 +1,93 @@
+//
+//	over_avg.cpp
+//
+//	 Purpose: reads in years until a sentinel of zero then prints out
+//		  how many are greater than the average
+//		  terminated by sentinel 0 
+//    Edited By : Michael Tran
+//    Edited On : January 25, 2013
+//
+//		  Comp 11 Tufts HW 5-2
+//
+
+#include <iostream>
+using namespace std;
+
+const int SPACE = 30000;
+const int SENTINEL = 0;
+
+// finds average
+double average (int years[]);
+int countyears (int years[], double avg);
+
+
+int main()      
+{
+    int years[SPACE];
+    int pos = 0;
+    int count = 0;
+    double avg;
+    int y;
+
+    do {
+       
+	if ( pos > SPACE ) {   		   //
+	    cerr << "too much input";	   //Returns error if too much input
+	    return 1;			   //
+	}
+     
+	cin >> y;			
+	years[pos++] = y;
+
+    }
+    while ( y != SENTINEL );		   //ends loop if sentinel year appears
+
+    avg = average(years);		  
+   
+    cout << countyears(years,avg);
+    return 0;
+
+}
+
+
+//Finds out the average given an array of values for years
+double average( int years[SPACE] )
+{
+    int sum = 0;
+    double avg;
+    int SPACE = 0;
+
+    do {			      	// Do while takes each value in the array
+	sum = years[SPACE] + sum;	// and adds it to sum which started at zero
+	SPACE++;			// stops when the value in the space = sentinel
+    }
+    while ( years[SPACE] != SENTINEL );
+
+  
+	avg = sum / ( SPACE );    
+   	return avg;
+
+}
+
+//Counts the number of years in an array that are larger than an
+//average found in the last function
+int countyears( int years[SPACE] , double avg )
+{
+    int SPACE = 0;
+    int count = 0;
+
+    do {				// do while loop goes through each space
+					// in the array and compares it to avg
+	if ( years[SPACE] > avg ){	// each time the value is larger than
+					// avg - count is incremented
+	    count ++;
+	}
+
+	SPACE++;
+
+    }
+    while ( years[SPACE] != SENTINEL );
+
+    return count;
+
+}

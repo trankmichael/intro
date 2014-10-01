@@ -1,0 +1,31 @@
+#!/bin/sh
+
+	#
+	# run all the tests
+	#
+
+	cp /dev/null test_results
+
+	for t in test*-?
+	do
+		echo "Testing $t..."
+		rm -f core.*
+		echo ":::: Test $t :::::" >> test_results
+		./$t  > $$ 2> $$.e
+		if test $? -gt 127
+		then
+			echo "$t CRASHED"
+			rm -f core.*
+		fi
+		cat $$ >> test_results
+		if test -s $$.e
+		then
+			echo "cerr said: " 
+			cat $$.e
+		fi
+		echo "Output of $t: "
+		cat $$
+		rm -f $$ $$.e
+		echo ""
+		echo "" >> test_results
+	done

@@ -1,0 +1,297 @@
+# RPN Calculator
+# COMP 40 - Michael Tran
+#
+# registers:
+#	   return: r1 - return register
+#     nonvolatile: r0 - zero register
+#		   r3 - val stack pointer
+#		   r4 - only during initialization r4 is volatile
+#   	 volatile: r5 - general use
+#		   r6 - temporary
+#		   r7 - temporary
+#      call stack: r2 - call stack pointer  
+
+.zero r0
+.temps r6, r7
+
+.section data
+.space 100000
+valstack: 
+.section init
+	r3 := valstack  		# r3 starts at valstack
+
+.section data
+jumptable:				# initialize jumptable 
+.space 256				# with space of 256
+.section init 			
+		
+init_table:
+	r4 := 255			# r4 is used in the procedure 
+					# to hold the incrementation of 
+					# loop check as r5 moves through
+init_errors:				# the jumptable  
+	r5 := jumptable + r4		
+	m[r0][r5] := input_error
+	r4 := r4 - 1 
+	if (r4 == 0) goto init_digs
+	goto init_errors
+
+init_digs:
+	r4 := '9'			# r4 is again being used to hold
+					# the incrementation through this 
+dig_loop:				# procedural loop which initializes
+	r5 := jumptable + r4		# the digits
+	m[r0][r5] := push_dig
+	r4 := r4 - 1
+	if (r4 >=s 48 ) goto dig_loop using r1
+	goto init_ops
+
+init_ops:
+.section init
+    r4 := jumptable + ' '		# r4 holds the indexes for the  
+    m[r0][r4] := waiting		# jumptable
+    r4 := jumptable + '\n'
+    m[r0][r4] := new_line
+    r4 := jumptable + '+'
+    m[r0][r4] := add
+    r4 := jumptable + '-'
+    m[r0][r4] := minus
+    r4 := jumptable + '*'
+    m[r0][r4] := mult
+    r4 := jumptable + '/'
+    m[r0][r4] := divide
+    r4 := jumptable + '|'
+    m[r0][r4] := or
+    r4 := jumptable + '&'
+    m[r0][r4] := and
+    r4 := jumptable + 'c'
+    m[r0][r4] := neg
+    r4 := jumptable + '~'
+    m[r0][r4] := comp
+    r4 := jumptable + 's'
+    m[r0][r4] := swap
+    r4 := jumptable + 'd'
+    m[r0][r4] := duplicate
+    r4 := jumptable + 'p'
+    m[r0][r4] := pop_off
+    r4 := jumptable + 'z'
+    m[r0][r4] := clear
+
+.section text
+
+input_error:
+    .section text
+    output "Unknown character '"
+    output r1				# r1 holds the inputted character
+    output "'"				# to be outputted 
+    goto waiting
+
+new_line:    	
+	push r4 on stack r2		# r4 is saved
+	r4 := r3			# r4 gets the top of the value stack
+	goto print_val_loop using r5	# r5 is used in this goto instruction
+	pop r4 off stack r2		# r4 is restored
+	goto waiting
+add:
+    push r4 on stack r2			# save r4 on r2
+    r4 := valstack - 2			# r4 used to check for number of vals
+    if (r4 <s r3) goto stack_underflow2 using r5
+    pop r5 off stack r3			# y
+    pop r4 off stack r3			# x
+    r5 := r5 + r4			# y + x
+    push r5 on stack r3			# push new value on to stack
+    pop r4 off stack r2			# restore r4 off r2
+    goto waiting
+
+stack_underflow2:
+    .section text
+    output "Stack underflow---expected at least 2 elements\n"
+    pop r4 off stack r2
+    goto waiting
+
+stack_underflow1:
+    .section text
+    output "Stack underflow---expected at least 1 element\n"
+    pop r4 off stack r2
+    goto waiting
+
+
+
+minus:
+    push r4 on stack r2				# see add label
+    r4 := valstack - 2
+    if (r4 <s r3) goto stack_underflow2 using r5
+    pop r5 off stack r3				# y
+    pop r4 off stack r3				# x
+    r5 := r4 - r5				# x - y
+    push r5 on stack r3
+    pop r4 off stack r2
+    goto waiting
+
+mult:
+    push r4 on stack r2				# see add label
+    r4 := valstack - 2
+    if (r4 <s r3) goto stack_underflow2 using r5
+    pop r5 off stack r3				# y
+    pop r4 off stack r3				# x
+    r5 := r4 * r5				# x * y
+    push r5 on stack r3
+    pop r4 off stack r2
+    goto waiting
+and:
+    push r4 on stack r2				# see add label
+    r4 := valstack - 2
+    if (r4 <s r3) goto stack_underflow2 using r5
+    pop r5 off stack r3				# y
+    pop r4 off stack r3				# x
+    r5 := r4 & r5				# x & y
+    push r5 on stack r3
+    pop r4 off stack r2
+    goto waiting
+or:
+    push r4 on stack r2				# see add label
+    r4 := valstack - 2
+    if (r4 <s r3) goto stack_underflow2 using r5
+    pop r5 off stack r3
+    pop r4 off stack r3
+    r5 := r4 | r5
+    push r5 on stack r3
+    pop r4 off stack r2
+    goto waiting
+
+comp:
+    push r4 on stack r2				# see add label
+    r4 := valstack - 1
+    if (r4 <s r3) goto stack_underflow1 using r5
+    pop r5 off stack r3
+    r5 := ~r5
+    push r5 on stack r3
+    goto waiting
+
+neg:
+    push r4 on stack r2				# see add label
+    r4 := valstack - 1
+    if (r4 <s r3) goto stack_underflow1 using r5
+    pop r5 off stack r3
+    r5 := -r5
+    push r5 on stack r3
+    goto waiting
+
+swap:
+    push r4 on stack r2				# see add label
+    r4 := valstack - 2
+    if (r4 <s r3) goto stack_underflow2 using r5
+    pop r5 off stack r3
+    pop r4 off stack r3
+    push r5 on stack r3
+    push r4 on stack r3
+    pop r4 off stack r2
+    goto waiting 
+
+duplicate:   
+    push r4 on stack r2				# see add label
+    r4 := valstack - 1
+    if (r4 <s r3) goto stack_underflow1 using r5
+    pop r5 off stack r3
+    push r5 on stack r3
+    push r5 on stack r3
+    goto waiting
+pop_off:
+    push r4 on stack r2				# see add label
+    r4 := valstack - 1
+    if (r4 <s r3) goto stack_underflow1 using r5
+    pop r5 off stack r3
+    goto waiting
+clear:
+    push r4 on stack r2 			# see add label
+    r4 := valstack - 1
+    if (r4 <s r3) goto waiting using r5
+    pop r5 off stack r3
+    goto clear
+
+divide:
+    push r4 on stack r2				# preserve r4 on call stack
+    r4 := valstack - 2				# check for correct number of
+    if (r4 <s r3) goto stack_underflow2 using r5# values if not go to error
+    pop r5 off stack r3				# y
+    pop r4 off stack r3				# x
+    if (r5 == 0) goto divide_by_zero		# check if y is zero goto error
+    if (r4 <s 0) goto negative_x using r1 	# check if x or y is neg if so
+    if (r5 <s 0) goto negative_y using r1	# invert them 
+    r5 := r4 / r5
+    push r5 on stack r3
+    pop r4 off stack r2				# restore r4
+    goto waiting
+
+divide_by_zero:
+    output "Division by zero\n"
+    push r4 on stack r3				# put x and y back on the 
+    push r5 on stack r3				# value stack in the correct
+    goto waiting				# order
+
+negative_x:
+    if (r5 <s 0) goto invert_both using r1    # check if y is negative if so 
+    r4 := -r4				      # invert both 
+    r5 := r4 / r5 				
+    r5 := -r5				      # negate the result 	
+    push r5 on stack r3
+    pop r4 off stack r2			      # restore r4 from call stack
+    goto waiting
+
+negative_y: 
+    r5 := -r5					# similar to negative x
+    r5 := r4 / r5				# but instead inverts y 
+    r5 := -r5
+    push r5 on stack r3
+    pop r4 off stack r2				# restores r4 from call stack
+    goto waiting 
+
+invert_both:
+    r5 := -r5					# negate both x and y
+    r4 := -r4
+    r5 := r4 / r5				# do not invert result
+    push r5 on stack r3				# push new value on value stack
+    pop r4 off stack r2				# restore r4 from call stack	
+    goto waiting	
+
+push_dig:
+    .section text
+   // output "in push"
+    r1 := r1 - '0'				# r1 is used to hold input
+						# and is converted to dec value
+    push r1 on stack r3				# push input value on stack
+    goto entering
+
+entering:
+    .section text				# handle entering stage
+    r1 := input()
+    if (r1 == -1) goto exit using r5
+    if (r1 <s '0') goto not_num using r5	# check if r1 holds a number
+    if (r1 >s '9') goto not_num using r5	# character
+    r1 := r1 - '0'
+    pop r5 off stack r3
+    r5 := r5 * 10 				# r5 is pushed back on the 
+    r5 := r5 + r1				# value stack after calculating
+    push r5 on stack r3				# the value given the previous
+    goto entering				# stack value and the value in
+
+not_num:
+    .section text
+    r5 := r1 + jumptable			# handles inputs non number 
+    r5 := m[r0][r5]				# inputs when in the entering
+    goto r5					# state
+
+main:
+    goto waiting				# main starts in the waiting
+						# state
+waiting:
+    .section text 
+    r1 := input()				# r1 recieves input
+    if (r1 == -1) goto exit using r5		# goto exit label
+    r5 := r1 + jumptable			# r5 recieves the jumptable 
+    r5 := m[r0][r5] 					# index 
+    goto r5 					# goto label specified by 
+						# jumptable
+exit: 
+    .section text
+    halt 

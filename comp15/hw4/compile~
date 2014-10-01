@@ -1,0 +1,3 @@
+g++ -Wall -Wextra facmain.cpp FactoryP.cpp AssemblyLine.cpp -o simp
+g++ -Wall -Wextra facmain.cpp FactoryU.cpp AssemblyLine.cpp -o simu
+g++ -Wall -Wextra facmain.cpp FactoryT.cpp AssemblyLine.cpp -o simt

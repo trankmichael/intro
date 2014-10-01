@@ -1,0 +1,61 @@
+#include <iostream>
+using namespace std;
+/*
+ *     mirror.cpp: prints a pattern when given an integer
+ *  date modified: February 18 2013
+ *    modified by: Michael Tran
+ *	           Comp 11 Tufts 		
+ *
+ */
+void forward(int);
+void backward(int);
+
+int main()
+{
+    int max_value;
+
+    cout << "Maximum value? ";
+    cin >> max_value;
+    
+    if ( max_value < 0 ){
+	return 0;
+    }
+
+
+
+    else {
+
+	for (int i = 0; i < 4; i++) {
+
+	forward(max_value);
+	cout << "|";
+	backward(max_value);
+	cout << endl;
+	}
+
+    }
+
+    return 0;
+
+}
+
+void forward(int max_number)
+{
+
+	int count = 0;
+
+	while ( count <= max_number ){
+	    cout << count;
+	    count++;
+	}
+
+}
+void backward(int max_number)
+{
+
+    while ( max_number >= 0 ){
+	cout << max_number;
+	max_number--;
+    }
+
+}

@@ -1,0 +1,102 @@
+Request
+  purpose: handles the user inpute "RQ" by searching for and 
+  assigning seats
+  arguments: 2d string array of seats, string name, int groupsize, 
+  string price
+  returns: double - total revenue after the new seats are assigned
+  effects: modifies the array by adding string name to the seat 
+  assigments 
+
+hiSeats
+  purpose: handle the user input of "hi" for ticket price
+  arguments: 2d array of seats, string name, int groupsize
+  returns: double revenue
+  effects: assigns names into the aray
+
+adjacentHiSeats
+  purpose: searches for and assigns adjacent high seats if possible
+  arguments: 2d seating array, string name, int groupsize
+  returns: bool adjacentSeats
+  effects: assigns name to spaces in the array that are now reserved
+  for the person 
+
+seperateHiSeats
+  purpose: if adjacent seats are not found then searches to see if
+  seperate seating is possible
+  arguments: 2d seating array, string name, int groupsize
+  returns: bool seperateSeats
+  effects: modifies the array by assigning string names to the seating
+  arrangment
+
+loSeats
+  purpose: handles the user input of "lo" for ticket price
+  arguments: 2d array of seats, string name, int groupsize
+  returns: double revenue
+  effects: assigns name into spaces in the array
+
+adjacentLoSeats
+  purpose: searches for and assigns adjacent lo seats if there are any
+  arguments: 2d seating array, string name, int groupsize
+  returns: bool adjacentSeats
+  effects: assigns seats if possible that are adjacent
+
+seperateHiSeats
+  purpose: if adjacent seats are not possible then searches to see if
+  seperate seating is possible
+  arguments: 2d seating array, string name, int groupsize
+  returns: bool seperateSeats
+  effects: assigns seperate seats if there is enough space in low
+
+notAvailable
+  purpose: states the reason why seats are not available
+  arguments: string name, bool findseats
+  returns: n/a
+  effects: cout an error message
+
+orderHiPrice
+  purpose: finds out the price of the tickets for the group by taking into
+  account adjacent vs seperate seating -- if seats are not available returns 
+  a value of zero
+  arguments: int groupsize, string name, bool adjacent
+  returns: double price
+  effects: does not modify the array  
+
+addToRevenue
+  purpose: takes the price and adds it to another variable revenue
+  arguments: double price, double revenue
+  returns: double revenue
+  effects: does not modify the array
+
+anySeats
+  purpose: handles the user option of "any" priced seats
+  arguments: 2d seating array, string name, int groupsize
+  returns: double revenue
+  effects: assigns strings to spaces in the array
+
+adjacentAnySeats
+  purpose: searches for adjacent seats of any price range 
+  arguments: 2d seating array, string name, int groupsize
+  returns: bool adjacentAnySeats
+  effects: assigns strings to spaces in the array if any possible
+  adjacent spots are available 
+
+seperateAnySeats
+  purpose: searches for seperate seats if adjacent seats are not
+  possible
+  arguments: 2d seating array, string name, int groupsize
+  returns: bool seperate 
+  effects:
+
+orderAnyPrice
+  purpose: calculates the price of the "any" group
+  arguments: int groupsize, string name, int hi
+  returns:
+  effects:
+
+cancel
+  purpose:
+  arguments:
+  returns:
+  effects:
+
+

@@ -1,0 +1,10 @@
+ 			Space	 years[SPACE]    avg	 sum
+value before loops    |   0   |       8       |   ?   |   0   |
+Value at second test  |   1   |      10       |   ?   |   8   |
+Value at third test   |   2   |       3       |   ?   |  18   |
+Value at fourth test  |   3   |       2       |   ?   |  21   |
+Value at fifth test   |   4   |       9       |   ?   |  23   |
+Value at sixth test   |   5   |       0       |   ?   |  32   |
+Value post-sixth test |   5   |       0       |  6.4  |  32   |
+
+

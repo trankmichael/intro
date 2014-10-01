@@ -1,0 +1,91 @@
+#include <iostream>
+/*
+	chkdate.cpp
+	input: numerical date
+	       month day year
+       output: "Y" date is valid
+	       "N" date is invalid
+
+  modified by: Michael Tran
+	   on: February 7th
+
+*/
+
+using namespace std;
+
+//Give each month a numeric value
+const int JAN = 1, FEB = 2, MAR = 3, APR = 4, MAY = 5, JUN = 6, JUL = 7,
+          AUG = 8, SEP = 9, OCT = 10, NOV = 11, DEC = 12; 
+
+bool check_leap_year(int);
+
+int main()
+{
+    int MONTH, DAY, YEAR;
+	  
+    cin >> MONTH >> DAY >> YEAR; 	//user puts in month day and year
+
+    if ( ( MONTH > DEC ) || ( MONTH < JAN ) || ( DAY < 1 ) )
+    	{
+	    cout << "N" << endl;
+    	}
+
+//FEBRUARY 
+
+    // FALSE CASES ( LEAP YEAR ) 
+    if ( ( MONTH == FEB ) && check_leap_year(YEAR) && ( DAY > 29 ) )
+	{
+	    cout << "N" << endl;
+	}
+
+    else if ( ( MONTH == FEB ) && !check_leap_year(YEAR) && ( DAY > 28 ) )
+	{
+	    cout << "N" << endl;
+	}
+
+// 31 day MONTHS ( FALSE ) 
+    else if ( ( ( MONTH == JAN ) || ( MONTH == MAR ) || ( MONTH == MAY ) || ( MONTH == JUL ) || 
+       ( MONTH == AUG ) || ( MONTH == OCT ) || ( MONTH == DEC ) ) && ( DAY > 31 ) )
+       
+       {
+           cout << "N" << endl;
+       }					      
+
+// 30 day months ( FALSE )
+    else if ( ( ( MONTH == APR ) || ( MONTH == JUN ) || ( MONTH == SEP ) || ( MONTH == NOV ) ) && ( DAY > 30 ) )
+       {
+	   cout << "N" << endl;
+       }
+
+// ANYTHING ELSE IS TRUE 
+    else 
+       {
+	   cout << "Y" << endl;
+       }
+
+    return 0;
+
+}
+
+bool check_leap_year(int year)
+
+// Leap years occur every four years except for every hundreth they do occur ever 400th year
+{
+    if ( year % 400 == 0 )
+    {
+	return true;
+    }
+    else if ( year % 100 == 0 )
+    {
+	return false;
+    }
+    else if ( year % 4 == 0 )
+    {
+	return true;
+    }
+    else 
+    {
+	return false; 
+    }
+
+}

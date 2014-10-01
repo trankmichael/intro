@@ -1,0 +1,62 @@
+//===============================================================
+//                    GLOBAL CONSTANTS
+//===============================================================
+const int totalRows   =    14;   // -  bounds of the whole seating
+const int totalCols   =    20;   //    in the concert hall
+
+const int lastLoCol   =     3;   // -  the bounds of the lo priced  
+const int firstLoCol  =    16;   //    seats  
+
+const int firstHiCol  =     4;	// -  refers to the bounds of the hi
+const int lastHiCol   =    15;	//    priced seats using the array 
+const int lastHiRow   =     7;	//    coordinates 7 = row 'H' 
+
+const int hiPrice     =   200;   // -  premium ticket price
+const int loPrice     =   150;   // -  regular ticket price
+
+const string blankId  = "---";   // -  empty seat iD
+
+const int exitLoop    =   100;   // - value to exit loops
+
+const double discount =    .9;   // - seperate seating discount
+
+
+struct Seat {
+    string name; 
+    string price;
+    int    col;
+    char   row;
+    double rev;
+} ;
+
+class Hall
+{
+  public:
+      Hall();
+      bool request( string name, int num, string type, int day );
+      bool cancel( string name );
+      void print();
+  private:
+      Seat chart[totalRows][totalCols];
+      void initialSeatId();
+      void initialBlankName();
+      void initialSeatPrices();
+      void initialSeatRevenue();
+      double totalRevenue();
+      bool findSpace( string, int, string, int);
+      bool findAnySeats( string, int );
+      void findLoSeats1( string, int, int );
+      void findLoSeats2( string, int, int );
+      void findLoSeats3( string, int, int );
+      bool findHiSeats( string, int, int );
+      bool findAnySeats( string, int, int);
+      void assignSeat( string, int, int , int );
+      void seperateSeats( string, int, string, int );
+      void printParty( string, string, int, bool, int );
+      bool seperateAnySeats( string, int, int );
+      double anyRevenue( string );
+      double partyRevenue( int, string, string);
+      bool checkAlreadyReserved( string );
+
+};
+

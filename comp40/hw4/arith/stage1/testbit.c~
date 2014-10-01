@@ -1,0 +1,10 @@
+#include "bitpack.c"
+
+
+int main(int argc, char* argv[])
+{
+        uint64_t test;
+        
+        Bitpack_fitsu(5,3);
+        Bitpack_fitss(5,3);
+]

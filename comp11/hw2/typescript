@@ -1,0 +1,39 @@
+Script started on Tue Jan 29 01:40:59 2013
+~/Desktop/comp11/hw2 > hostname
+sunfire31
+~/Desktop/comp11/hw2 > who
+aschul01 pts/24       Jan 23 15:25 (c-98-216-108-217.hsd1.ma.comcast.net)
+ndatir01 pts/30       Dec 29 19:41 (bosave-vj01.eecs.tufts.edu)
+mtran04  pts/56       Jan 29 01:40
+cdowns01 pts/73       Jan 25 10:03 (wr-130-64-92-103.medford.tufts.edu)
+mtran04  pts/79       Jan 29 01:02 (wr-130-64-220-44.medford.tufts.edu)
+jmicke01 pts/80       Jan 29 00:17 (wr-130-64-196-86.medford.tufts.edu)
+mrisgin  pts/81       Jan 28 20:07 (216-15-114-45.c3-0.arl-ubr1.sbo-arl.ma.cable.rcn.com)
+jwoogerd pts/97       Jan 28 21:56 (c-24-61-46-44.hsd1.ma.comcast.net)
+jfishb01 pts/100      Jan 28 21:58 (209-6-85-96.c3-0.smr-ubr2.sbo-smr.ma.cable.rcn.com)
+~/Desktop/comp11/hw2 > pwd[K[K[Kw
+ 01:41:17 up 75 days, 17:18, 14 users,  load average: 0.06, 0.13, 0.14
+USER     TTY      FROM              LOGIN@   IDLE   JCPU   PCPU WHAT
+aschul01 pts/24   c-98-216-108-217 Wed15    3days 16:43   0.36s vim a1.c
+ndatir01 pts/30   bosave-vj01.eecs 29Dec12 30days  0.28s  0.28s -tcsh
+mtran04  pts/56                    01:40    4.00s  0.08s  0.04s w
+cdowns01 pts/73   wr-130-64-92-103 Fri10   14:55m  4:48   4:48  ssh sunfire47 -X
+mtran04  pts/79   wr-130-64-220-44 01:02    4.00s  0.34s  0.68s sshd: mtran04 [p
+jmicke01 pts/80   wr-130-64-196-86 00:17   55:07   1.58s  1.31s emacs Transcript
+mrisgin  pts/81   216-15-114-45.c3 20:07   22:36   0.79s  0.50s pine
+jwoogerd pts/97   c-24-61-46-44.hs 21:56    3:42m  0.34s  0.11s vim 14.imp
+jfishb01 pts/100  209-6-85-96.c3-0 21:58    1:21  29.95s 29.68s vim eval.c
+~/Desktop/comp11/hw2 > pwd
+/h/mtran04/Desktop/comp11/hw2
+~/Desktop/comp11/hw2 > ls -1
+[00m[00;32madd8[00m
+[00madd8.cpp[00m
+[00madd8.cpp~[00m
+[00;32mdigits[00m
+[00mdigits.cpp[00m
+[00mdigits.cpp~[00m
+[00mtypescript[00m
+[m~/Desktop/comp11/hw2 > exit
+exit
+
+Script done on Tue Jan 29 01:41:27 2013

@@ -1,0 +1,12 @@
+#include "print_bits.h"
+
+
+A2Methods_UArray2 decompress_bits_to_print(FILE *fp)
+{
+
+
+
+    struct Pnm_ppm pixmap = { .width = width, .height = height
+			      , .denominator = denominator, .pixels = array
+    };
+}

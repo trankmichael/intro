@@ -1,0 +1,89 @@
+# print
+# COMP 40 - Michael Tran
+# - handles printing of values on the stack in decimal format
+#
+# registers:
+#	   return: r1 - return register
+#     nonvolatile: r0 - zero register
+#		   r3 - val stack pointer 
+#		   r4 
+#     nonvolatile registers are preserved through this procedure
+#   	 volatile: r5 - general use
+#		   r6 - temporary
+#		   r7 - temporary
+#      call stack: r2 - call stack pointer  
+
+.zero r0
+.temp r6, r7
+
+.section text
+
+# loop moves down the stack for the length of the valstack
+print_val_loop:
+	if (r4 == valstack) goto stop_print_loop using r5
+	output ">>> "
+	r5 := m[r0][r4] 		# stores each value on the stack in
+	push r5 on stack r2 		# r5 which is to be printed
+	goto print linking r1 		# r1 is linked to return here
+	output "\n"			# outputting proper format
+	r4 := r4 + 1 
+	goto print_val_loop 
+stop_print_loop:
+	pop r4 off stack r2		# restore r4 which was pushed on to the
+	goto waiting			# earlier
+
+print:
+	pop r5 off stack r2		# pop r5 which is to be printed in this
+	push r1 on stack r2 		# procedure
+	push r3 on stack r2		# initially r1 holds the return address
+	push r4 on stack r2		# to exit recursion
+					# r1, r3, and r4 are preserved
+
+# handles the maximum negative number for which signed comparison fails
+check_max_neg:
+	push r4 on stack r2 		# preserve r4
+	r4 := 2147483648		
+	r4 := -r4 			# r4 == max neg
+	if (r5 == r4 ) goto print_max_neg using r1  # go to corner case label 
+	pop r4 off stack r2			    # using r1
+	# restore r4 ^ 
+
+check_if_neg:
+	if (r5 <s 0) goto print_neg using r1	# negative value handling
+	goto print_help 
+
+print_neg:
+	output "-"	# flips the sign of r5 stores in r5 and prints 
+	r5 := -r5	# the symbol 
+print_help:
+	r3 := r5 			# r5 is the value to be printed
+	r4 := r3 / 10 			# r4 is now ho
+	if (r4 != 0) goto push_r4	# if r5 was a single digit push r4
+	r5 := single_digit
+	r1 := print_help2
+print_help2:
+	r4 := r4 * 10			# retrieves the remainder after divide
+	r3 := r3 - r4 			# by 10
+single_digit:
+	r3 := r3 + 48			# format single digit held in r3 
+	output r3			# output r3 
+	pop r4 off stack r2
+	pop r3 off stack r2
+	pop r5 off stack r2 
+	goto r5 			# at the end r5 == r1 and is 
+					# the return label to the loop
+
+// put back all the register values used if nonvolatile 	
+
+print_max_neg:
+	output "-2147483648"
+	pop r4 off stack r2
+	pop r4 off stack r2		# restore r4, r3, and r1 after being
+	pop r3 off stack r2		# pushed on to the beginning of the 
+	pop r1 off stack r2		# print label
+	goto print_val_loop using r5	# return to the loop using r5 
+					# which is volatile
+push_r4:
+	push r4 on stack r2		# recursive helper label
+	r1 := print_help2		# r4 is pushed if the digit is not zero
+	goto print			

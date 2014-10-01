@@ -1,0 +1,109 @@
+#include "AssemblyLine.h"
+
+AssemblyLine::AssemblyLine()
+{
+	capacity = INITIAL_SIZE;
+	packages = new Package[INITIAL_SIZE];
+
+	for( int i; i < INITIAL_SIZE; i++){
+		packages[i].unitsWorked = 0;
+	}
+
+	back = 0;
+	front = 0;
+}
+
+bool AssemblyLine::isEmpty() const
+{
+	if ( size() == 0 )
+		return true;
+	else
+		return false;
+}
+
+int AssemblyLine::size() const
+{
+	return ( back - front + capacity ) % capacity;
+}
+
+bool AssemblyLine::work( double workUnits )
+{
+	
+	if( !isEmpty() )
+	{
+		packages[front].unitsWorked = packages[front].unitsWorked + workUnits;
+		if( packages[front].unitsWorked >= packages[front].units )
+		{
+			dequeueFront();
+			cout << " Package order number" << packages[front].orderNbr;
+			cout << " with " << packages[front].units << " units arrived at time ";
+			cout << packages[front].timeArrived << " and left at time ";
+			return true;
+		}
+		else{
+			return false;
+		}
+	}
+
+	return false;
+}
+
+bool AssemblyLine::dequeueFront()
+{
+	if( !isEmpty() )
+	{
+		front = (front + 1) % capacity;
+		cerr << "dequeued" << endl;
+		return true;
+	}
+	return false;
+}
+
+void AssemblyLine::enqueue( Package added )
+{
+	packages[back] = added;
+
+	back = (back + 1 ) % capacity;
+
+//	cerr << back << " =?= " << front << endl;
+	if( back == front ){
+		expandLine();
+//		cout << "expanded" << endl;
+	}
+}
+
+void AssemblyLine::expandLine()
+{
+	int newSize = capacity * EXPAND_FACTOR;
+	Package* temp = new Package[newSize];
+
+	for( int i = 0; i < capacity ; i++ ){
+		temp[i] = packages[ ( front + i ) % capacity ];
+
+	}
+	for( int i = capacity; i < newSize; i++){
+		temp[i].unitsWorked = 0;
+	}
+	delete[] packages;
+	packages = temp;
+
+	front = 0;
+	back = capacity;
+
+	capacity = newSize;
+}
+
+// just used for testing 
+void AssemblyLine::print() const
+{
+
+	for( int i = front; i < back ; i = (( i + 1 ) % capacity) ){
+		cout << "ORDER NUMBER: " << packages[i].orderNbr << endl; ;
+		cout << "       UNITS: " << packages[i].units << endl; ; 
+	}
+
+
+	cerr << "FRONT: " << front << endl;;
+	cerr << " BACK: " << back << endl;;
+
+}

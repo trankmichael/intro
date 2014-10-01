@@ -1,0 +1,148 @@
+Jaime Sanchez, Michael Tran
+
+Thank you to:
+    TAs:
+        Hannah Clark - helping with memory leaks
+        Hyung-Seo Park - understanding stdin for brightness
+        Isobel Redelmeier - design document explanation
+        James Mernin - help with memory leaks
+        Patrick Kinsella - help Hanson str and design doc
+
+brightness.c
+
+
+fgroups.c
+    
+    Approximate Hours: 30 Hours 
+
+    Hanson Interfaces Used:
+        Set
+        Table
+        List
+        Str
+        Atoms
+
+    Organization:
+        Reading In:
+            -whole lines of input were stored using a buffer
+            -the buffer was then passed through to functions which organized 
+             the string into a finger print and a name
+            -bad input lines were ignored
+        Adding to the Table:
+            -the names were atomized and checked if they were in a Set to 
+             prevent duplicates
+            -if they were not in the set the fingerprint name pair was then 
+             added to the table as a key and value pair
+            -if the key was already present the name was added to a list which 
+             includes the other names paired with that fingerprint
+        Printing:
+            -map functions were used to print 
+            -apply went through and printed all the fingerprints for keys 
+             paired with lists greater than length one
+            -fingerprint groups were printed following a new line 
+            -closure was used to prevent a new line from being printed before 
+             the first fingerprint group
+            -this prevented a newline from being printed at the end of output
+        Freeing: 
+            -map functions were used to free up the list 
+            -then the table was freed 
+            -the set was freed once all input was read in and added to the 
+             table
+
+    Major Problems:
+        -handling the input of malformed lines 
+        -MEMORY LEAKS
+        -dynamic buffer: We were not able to correctly implement a dynamic 
+         buffer to handle any size name
+
+    Major Successes:
+        -Hanson Str: After taking some time to understand the correct 
+                     implementation of Hanson's 'Str' interface we were able to
+                     more easily handle lines of input with operations such 
+                     as find and dup. 
+            - A challenge was understanding his version of char "indeces" 
+              and relating those to the standard char* index
+        -Hanson Set: The Hanson set interface was a very intuitive and useful 
+         interface in checking for duplicate names.
+        -Hanson Map Functions: We were really able to use the map functions 
+         effectively to both print and free data from the Hanson Lists and 
+         table.
+
+    Part C: 
+
+        Problems solvable using 'fgroups'
+            - The way we implemented fgroups it could also be used as a way of 
+              sorting things to a common characteristic - the fingerprint.
+            - Fingerprints are a useful way to hash names securely.
+            - It is secure because to get a member of the table you must have 
+              its fingerprint to retrieve the member
+            - Fingerprints are also useful because they can be used represent 
+              large data ( names ) with a unique fingerprint.  This provides 
+              fast lookup and better search time.
+
+            - Duplicate prevention
+                -The fgroups interface prevented duplicate names from 
+                 being stored in the table.  This is useful in cases where 
+                 storing multiple versions of the same thing would be 
+                 redundant.
+
+            -Credit Cards: 
+                When reading a credit card, scanning a card would provide 
+                you with a fingerprint which you then could use to access a 
+                bank account with. It would provide security because the 
+                fingerprint is hashed therefore providing a layer of 
+                encryption.
+
+            -Library: Books are identified with a unique fingerprint using the 
+             isbn numbers and dewey decimal system.  This makes books easier 
+             to find.
+
+            The main advantage of fingerprints is the ability to pair 
+            relatively large piece of data with something unique and small.  
+            This allows for quick searches through databases. 
+
+            Message digests are used to pair blocks of data of any size with 
+            unique fingerprints.  This is a little similar to pointers where 
+            you can use them to represent much larger data members using a 
+            relatively constant amount of space. 
+
+            Statistical Use:
+                fgroups could be used for statistical use such as trends, and 
+                patterns found in World of Ideas. Such examples would be 
+                weather or twitter trends. For these to be of statistical 
+                value, the events must be mapped to multptiple ocurrances. 
+
+                This can be used even further by setting some threshhold number
+                which defines the trend. An example would be a database which 
+                collects popular twitter hashtags. It would be unreasonable 
+                for the database hashtags which only occured a few times. That
+                would be a waste of space.
+
+brightness.c
+
+    Approxamite Hours: 10 hours
+    
+    Interfaces Used:
+        Pnmrdr
+
+    Organization:
+        Reading In:
+            -checked the number arguments 
+            -depending on the number of arguments seperate functions were 
+             called to get the file
+            -we used an exception test to check if the file was in the correct 
+             format
+        Calculating Brightness:
+            -used width and height provided the Pnmrdr interface
+            -by looping through each data point we calculated the average value
+            -the output was then printed to three decimal places
+        Freeing:
+            -the file was closed
+            -the Pnmrdr pointer was freed
+
+    Major problems:
+        -handling the stdin was a problem that took us time to solve. 
+    Major successes
+        -Used the exception (try / catch) to deal with uncatched exceptions. 
+        -using Pnmrdr to get the important values such as width and height 
+         which allowed to calculate the average brightness 

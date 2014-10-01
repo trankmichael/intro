@@ -1,0 +1,135 @@
+Michael Tran and Quinn Hood
+Comp 40 HW 4 
+Design Document Arith
+
+Problems: 
+        - convert between portable pixmap images and compressed binary 
+      images
+
+40Image Program:
+        Arguments: '-c' (compress) or '-d' (decompress) + (filename)
+        Uses: BITPACK 
+
+    Architecture: 
+        PPM pixels should be stored as a UArray2B
+            - this allows us to map by 2x2 blocks when compressing
+              and decompressing to the output UArray2B
+
+            INVARIANT: 
+                - no wasted space because the image has an even width and 
+                  height
+                - all pixels in the same block are compressed into the same
+                  32-bit word
+                - word must be written in big-endian order
+
+    Algorithm:
+
+        COMPRESSION
+        Pnm_ppm read_in( File * fp ) 
+         - read ppm from command line or stdin
+
+        void trim( Pnm_ppm )
+         - trim the columnns or rows to be an even number
+
+         - use mapping to change the floating point to the equivalent pixel 
+           in RGB 
+        
+         - 2 x 2 blocks in the image are packed into a 32-bit word 
+                - pixels start as 12 bytes - the resulting pixel is 4 bytes
+                  USE BITPACK TO DO THIS 
+       
+        -  write the compressed image out to binary using stdout
+
+        DECOMPRESSION
+        - takes in an array of codewords and prints out a Pnm_ppm using 
+          Pnm_write
+        - goes throught the same steps as compression but in the reverse order
+
+        CODE WORD ORDER:
+        - MSB first for each 32-Bit Word
+        - 32-bit words should be read in row-major-order 
+
+        a: average brightness
+        b: degree to which the image gets brighter from top to bottom
+        c: degree to which the image gets brighter from left to right
+        d: degree to which pixels on one diagonal are brighter than those 
+           on the other diagonal
+        P_b: chroma elements | average value of the four pixels in the block
+        P_r: |x|x|x|x|x|x|x|x| four bit values
+
+
+
+    INVARIANTS:
+      -P_b and P_r are always values between the range of -0.5 and +0.5 when 
+       they are stored in the word. each value must be checked
+      -compressed images are always smaller than uncompressed images
+      -height and width are always even after compression
+
+    TESTING: 
+      -Readin an image and output the image without compressing to check that
+       the image is being properly stored
+      -Do the compression and decompression in tandem in order to make sure each
+       step works
+      -Make sure what you give in to one step for compression comes out in the 
+       same form when you decompress at that step
+
+        Notes:
+   - the bounds of each coefficient and index ( P_b and P_r ) must be adhered
+     to. if A number is calculated to be out of bounds, it must be rounded 
+     up or down to the nearest in bound value 
+         - images should be trimmed such that the number of rows and 
+           columns are even numbers
+
+
+BITPACK:
+
+!!bool Bitpack_fitsu(uint64_t n, unsigned width);
+    Implementation: 
+      -use a function called find_upperu(width) which compute the upper bound
+       of the width given for an  unsigned int.
+      -compares the int given to this value t and checks that it is less 
+       ( returns true if fits false otherwise )
+
+!!bool Bitpack_fitss( int64_t n, unsigned width);
+    Implementation
+      -uses functions called find_uppers(width) and find_lowers(width) to 
+       compute the range of possible signed integers given a width 
+      -compares the given value to these to determine if it fit
+       ( returns true if fits false otherwise )
+!!uint64_t Bitpack_getu(uint64_t word, unsigned width, unsigned lsb);
+    Implementation:
+      -assert that ( 0 <= width <= 64 )
+      -assert that ( w + lsb <= 64 ) 
+      -first make an unsigned mask according to the width and the lsb
+          -do this using an apropriate unsigned shift left function based 
+           on the lsb
+      -use & operator to get the unsigned word back
+          -since unsigned use unsigned shift function to shift retrieve the 
+           uint
+!!int64_t Bitpack_gets(uint64_t word, unsigned width, unsigned lsb);
+    Implementation:
+      -similar process with Bitpack_getu
+      -must take special care of signed ints
+        -depending on the sign different shift functions must be used to 
+         propogates '0' or '1' accordingly 
+!!uint64_t Bitpack_newu(uint64_t word, unsigned width, unsigned lsb, 
+                                                          uint64_t value);
+      - first make an unsigned mask according to the value given
+      - then using lsb use the appropriate unsigned shift left function
+      - use & operator with this mask and the word to put it in correct spot
+!!uint64_t Bitpack_news(uint64_t word, unsigned width, unsigned lsb,  
+                                                          int64_t value);
+      - very similar to newu
+      - use a different shift function because it is signed
+      Note: 
+        SHIFTS MUST DO DIFFERENT THINGS DEPENDING ON SIGNED VS UNSIGNED 
+
+        MASK - used in getu, gets, newu, news
+  Write our own shift function which we use with Mask on our word
+
+Testing
+- should be tested using all 64 bits
+- code words must be in big-endian
+- check that words are properly encoded and decoded by using the appropriate
+  arithmetic with test cases.  We will write out the numbers in big-endian
+  binary to confirm that each word is where it is supposed to be

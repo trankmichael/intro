@@ -1,0 +1,10 @@
+
+
+
+void decompress40(FILE *input)
+{
+	temp = decompress_bits_to_test(temp);
+	temp = decompress_test_to_compvid(temp);
+	temp = decompress_float_to_compvid(temp);
+	image = decompress_block_to_rgb( temp );
+}

@@ -1,0 +1,40 @@
+/*
+*-------------------------------------------
+*         For: Comp 15 HW 1
+*   Edited On: Sept 17, 2013
+* Description: Implementation for a Dynamic
+*		Array to take in a sequence 
+*		of ElementTypes
+*--------------------------------------------
+*/
+
+typedef char ElementType;
+
+#include <iostream>
+using namespace std;
+
+class sequence
+{
+	public:
+	    sequence();
+	    sequence( ElementType character );
+	    bool isEmpty();
+	    int size();
+	    void concatenate( sequence* sequenceAdded );
+	    ElementType first();
+	    ElementType* rest();
+	    void print();
+	
+	    
+	   
+
+	private:
+	    ElementType* list;
+	    int currentCapacity;
+	    int currentLength;
+	    void expand( int factor );
+	    void concatenateEmptyCases( sequence* ListAdded );
+	    void concatenateNormalCases( sequence* ListAdded, int spaceNeeded );
+	    int sizeOfSequenceAdded( sequence sequenceCounted );
+	 
+};

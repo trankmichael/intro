@@ -1,0 +1,213 @@
+#include "assert.h"
+#include "arith40.h"
+#include "pnm.h"
+#include "list.h"
+#include "mem.h"
+#include "a2blocked.h"
+#include "a2methods.h"
+#include "a2plain.h"
+#include "compress40.h"
+#include "math.h"
+
+
+typedef struct {
+        unsigned a; 
+        signed int b;
+        signed int c;
+        signed int d;
+        unsigned P_b;
+        unsigned P_r;
+
+} Test; 
+
+typedef struct {
+        float y;
+        float pb;
+        float pr;
+} compvid_pix;
+
+typedef struct {
+        compvid_pix p1;
+        compvid_pix p2;
+        compvid_pix p3;
+        compvid_pix p4;
+} compvid_block;
+
+static compvid_block get_neighbors( int i, int j, Pnm_ppm image );
+static void apply_compress( int i, int j, A2Methods_UArray2 compressed, 
+                        A2Methods_Object * test, void * cl );
+//static void apply_pack( int i, int j, A2Methods_UArray2 compressed, 
+//                        A2Methods_Object * block, void * cl );
+float range_float( float max, float min, int convert );
+static compvid_pix rgb_to_component(Pnm_rgb pixel);
+static unsigned get_index_pr(compvid_block block);
+static unsigned get_index_pb(compvid_block block);
+static Test  set_cosine_coeff( compvid_block neighbors, Test block );
+//static int convert( int bits, float low, float hi, float val );
+
+A2Methods_UArray2 compress40( FILE * fp ) 
+{ 
+        A2Methods_T methods = uarray2_methods_plain;
+        assert(methods);
+        Pnm_ppm image = Pnm_ppmread( fp, methods );
+
+        A2Methods_UArray2 compressed;
+        List_T code_words = NULL; 
+        int com_width;
+        int com_height;
+
+        
+//         fprintf( stderr, " red: %d ", ((Pnm_rgb)image->methods->at(image->pixels, 0, 0))->red );
+//         fprintf( stderr, " blue: %d ", ((Pnm_rgb)image->methods->at(image->pixels, 0, 0))->blue );
+//         fprintf( stderr, " green: %d ", ((Pnm_rgb)image->methods->at(image->pixels, 0, 0))->green );
+        com_width = image->methods->width( image->pixels ) / 2;
+        com_height = image->methods->height( image->pixels ) / 2;
+
+// testing right now 
+        compressed = image->methods->new(com_width, com_height, sizeof(Test));
+        image->methods->map_row_major( compressed, &apply_compress, &image );
+
+        return compressed;
+        // image->methods->map_row_major( compressed, &apply_decompress, &dec );
+
+        // Pnm_ppmwrite(stdout, compressed);
+        // image->methods->map_row_major( compressed, &apply_pack, code_words );
+        (void) code_words;
+ 
+}
+
+static void apply_compress( int i, int j, A2Methods_UArray2 compressed, 
+                        A2Methods_Object * test, void * cl )
+{
+        compvid_block neighbors;
+        Test block;
+        Test * tmp;
+        Pnm_ppm * image = cl;
+        tmp = test;
+
+        neighbors = get_neighbors(i*2, j*2, *image);
+        block.P_r = get_index_pr( neighbors );
+        block.P_b = get_index_pb( neighbors );
+        block = set_cosine_coeff( neighbors, block );
+
+        *tmp = block;  
+        (void) compressed;
+}
+
+static compvid_block get_neighbors( int i, int j, Pnm_ppm image )
+{
+        compvid_block neighbors;
+        Pnm_rgb temp; 
+
+        temp = image->methods->at(image->pixels , i, j );
+        neighbors.p1 = rgb_to_component(temp);
+        temp = image->methods->at(image->pixels , i + 1, j );
+        neighbors.p2 = rgb_to_component(temp);
+        temp = image->methods->at(image->pixels , i, j + 1 );
+        neighbors.p3 = rgb_to_component(temp);
+        temp = image->methods->at(image->pixels , i + 1, j + 1 );
+        neighbors.p4 = rgb_to_component(temp);
+
+        return neighbors;
+}
+
+static compvid_pix rgb_to_component(Pnm_rgb pixel)
+{
+//        assert(pixel->red);
+        compvid_pix converted;
+
+        // needs work -> currently default denominator of 255
+        float red = (float)(pixel->red) / 255 ; 
+        float blue = (float)(pixel->blue) / 255 ;
+        float green = (float)(pixel->green) / 255 ;
+
+        converted.y = 0.299 * red + 0.587 * green 
+                      + 0.114 * blue;
+                    // printf( "Y: %f", converted.y );
+
+        converted.pb = -0.168736 * red - 0.331264 * green
+                       + 0.5 * blue;
+
+                    // printf( "Pb: %f", converted.pb );
+
+
+        converted.pr = 0.5 * red - 0.418688 * green
+                       - 0.081312 * blue; 
+
+                // printf( "Pr: %f", converted.pr );
+
+        return converted;
+}
+
+static unsigned get_index_pb(compvid_block block)
+{
+        float avg = 0;
+
+
+        avg = (block.p1.pb + block.p2.pb + block.p3.pb + block.p4.pb) / 4;
+//      
+            /* max is 1 */
+        if( avg >= 0.5) {
+            avg = 0.5;
+        }
+        if( avg <= -0.5) {
+            avg = -0.5;
+        }
+        return Arith40_index_of_chroma(avg);
+}
+
+float range_float( float max, float min, int convert )
+{
+        double spacing = (max - min) / 255;
+        return convert * spacing + min; 
+}
+
+static unsigned get_index_pr(compvid_block block)
+{
+        float avg = 0;
+        avg = (block.p1.pr + block.p2.pr + block.p3.pr + block.p4.pr) / 4;
+
+         if( avg >= 0.5) {
+            avg = 0.5;
+        }
+        if( avg <= -0.5) {
+            avg = -0.5;
+        }
+        return Arith40_index_of_chroma(avg);
+}
+
+static Test set_cosine_coeff( compvid_block neighbors, Test block )
+{
+        block.a = ( neighbors.p4.y + neighbors.p3.y 
+                        + neighbors.p2.y + neighbors.p1.y ) / 4.0;
+        block.b = ( neighbors.p4.y + neighbors.p3.y 
+                        - neighbors.p2.y - neighbors.p1.y ) / 4.0;
+        block.c = ( neighbors.p4.y - neighbors.p3.y 
+                        + neighbors.p2.y - neighbors.p1.y ) / 4.0;
+        block.d = ( neighbors.p4.y - neighbors.p3.y 
+                        - neighbors.p2.y + neighbors.p1.y ) / 4.0;
+        return block;
+}
+
+// static void apply_pack( int i, int j, A2Methods_UArray2 compressed, 
+//                          A2Methods_Object * block, void * cl )
+// {
+//     List_T code_words = cl; 
+//     uint64_t word; 
+//     // Bitpack_newu( word, 
+
+//     code_words = List_push( code_words, &word );        
+//     (void) j;
+//     (void) i ;
+//     (void) block;
+//     (void) compressed;
+// }
+
+// static int convert( int bits, float low, float hi, float val )
+// {
+//         int space_count = pow(2, bits);
+
+//         float spacing = ( hi - low ) / space_count; 
+  
+//         return (val - low) / spacing;
+// }

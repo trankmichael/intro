@@ -1,0 +1,15 @@
+/*
+  Tufts University
+  Comp 15 HW 3
+  Factory Object
+  Due: October 22, 2013
+*/
+
+
+
+#ifndef PACKAGE_H
+#define PACKAGE_H
+
+#include <iostream>
+#include <sstream>
+#include <cstdlib>

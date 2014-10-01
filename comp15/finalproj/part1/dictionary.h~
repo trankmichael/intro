@@ -1,0 +1,22 @@
+#include <iostream>
+#include <sstream>
+#include <cstdlib>
+#include <cctype>>
+
+using namespace std;
+const int ALPH = 26;
+
+struct Node{
+    bool marker;    
+    Node* children[ALPH];
+}
+
+class Dictionary{
+    public:
+	Dictionary();
+	bool isPrefix( string s );
+	bool isWord( string s );
+	bool insert(string s );
+    private:
+	
+}

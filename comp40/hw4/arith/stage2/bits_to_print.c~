@@ -1,0 +1,37 @@
+#include "print_bits.h"
+
+
+static void apply_print( int i, int j, A2Methods_UArray2 tests,
+			 A2Methods_Object * test, void * cl  );
+static void print_word(uint64_t  word);
+
+void compress_bits_to_print(A2Methods_UArray2 code_words)
+{
+	A2Methods_T methods = uarray2_methods_plain;
+	assert(methods);
+
+	methods->map_row_major(code_words, &apply_print,
+			       NULL);
+	methods->free(&code_words);
+}
+
+static void apply_print( int i, int j, A2Methods_UArray2 code_words,
+			  A2Methods_Object * word, void * cl  )
+{
+	uint64_t * temp = word;
+	print_word(*temp);
+	(void) i;
+	(void) j;
+	(void) code_words;
+	(void) cl;
+}
+
+static void print_word(uint64_t word)
+{
+	int i;
+
+	for (i = 0; i < 32; i++) {
+		putchar(word);
+	}
+	printf("\n");
+}

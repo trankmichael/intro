@@ -1,0 +1,58 @@
+Michael Tran and Quinn Hood
+Tufts COMP 40: HW 4 ARITH 
+
+Time Spent Analyzing/Prototyping: 20 hours
+Time Spent Debugging/Problem Solving: 25 hours
+
++ Modules Implemented:
+    print_bits.h
+    test_bits.h
+    bitpack.h
+    float_compvid.h
+    rgb_block.h
+    test_compvid.h
+
+    print_bits.h:
+        Purpose: 
+             compression and decompression between uint64_t code words and 
+             the COMP 40 Compressed image format of char
+
+    test_bits.h:
+        Purpose: 
+            handles compression and decompresion between a UArray2 uint64_t
+            and a UArray2 of 'Test' structs which represent each of the 6
+            'words' to be packed into the uint64_t
+
+    test_compvid.h:
+        Purpose:
+            handles compression and decompression between the UArray2 of Test
+            and a compvid UArray2
+
+    float_compvid.h:
+        Purpose:
+            handles compression and decompression between the UArray2 of 4 
+            rgb float ( each pixel ) values represented as floats to a UArray2
+            of compvid ( y, pb, pr )
+
+    rgb_block.h:
+        Purpose:
+            handles the compression and decompression between a Pnm_ppm
+            and a UArray2 of four float rgb pixels
+
+Architecture:
+    -Each stage of compression and decompression creates a new UArray2 of the 
+     output type. The modules contain two functions which are the inverse 
+     of one another.
+    -at the end of each compression/decompression the input array is freed
+    -the seperate modules work with seperate specific structures, this 
+     seperates the compression process
+
+Implemented Correctly:
+    - images are compressed and decompressed relatively well
+    - bitpack has been fully implemented using three static inline shifts
+    - each module handles specific task / structures 
+    - no memory leaks were found
+    - no artifacts were found post-compression
+
+Implemented Incorrectly:
+    -images are slightly darker than expected 

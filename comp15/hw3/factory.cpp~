@@ -1,0 +1,102 @@
+#include "Factory.h"
+
+Factory::Factory()
+{
+		cerr << " default constructor " << endl;
+	capacity = INITIAL_SIZE;
+	nbrPackages = 0;
+	packages = new Package[INITIAL_SIZE];
+		cerr << " default constructor " << endl;
+	line = new AssemblyLine;
+
+}
+
+int Factory::run( int numWorkers, double* rates )
+{
+	int tempTimeArrived, tempUnits; 
+	string tempOrderNbr;
+
+	while( !cin.eof() )
+	{
+		cerr << " in run " << endl;
+		readin(  tempUnits, tempOrderNbr, tempTimeArrived );
+		packages[nbrPackages].units = tempUnits;
+		packages[nbrPackages].orderNbr = tempOrderNbr;
+		packages[nbrPackages].timeArrived = tempTimeArrived;
+		nbrPackages++;
+		if ( nbrPackages >= capacity )
+		{
+			expand();
+		}
+	}	
+
+	work( numWorkers, rates );
+	return 0;
+
+}
+
+void Factory::work( int numWorkers, double* rates )
+{
+	double workUnit = 0 ;
+	for( int i = 0; i < numWorkers; i++ )
+	{
+		workUnit = workUnit + rates[i];
+		cerr << " after workUnit" << endl;
+	}
+	int time = 0;
+
+	while( nbrPackages > 0 ){
+
+		for( int i = 0; i < nbrPackages; i++ )
+		{
+			if ( line->work( workUnit ) )
+			{
+				cout << time;
+			}
+			if( time == packages[i].timeArrived )
+			{
+				line->enqueue( packages[i] );
+				nbrPackages--;
+			}
+			cerr << " in nbRACKAGES" << endl;
+		}
+		time++;
+	}
+
+
+
+}
+void Factory::expand()
+{
+	int newSize = capacity * EXPAND_FACTOR;
+	Package* temp = new Package[newSize];
+
+	for( int i = 0; i < capacity ; i++ ){
+		temp[i] = packages[i];
+	}
+
+	delete[] packages;
+	packages = temp;
+
+	capacity = newSize;
+
+
+}
+
+void Factory::readin( int tempUnits, string tempOrderNbr, int timeArrived )
+{
+	string ignore;
+
+	cin >> ignore; 
+	cin >> ignore;
+	cin >> ignore;
+	cin >> tempOrderNbr;
+	cin >> ignore;
+	cin >> tempUnits;
+	cin >> ignore;
+	cin >> ignore; 
+	cin >> ignore;
+	cin >> ignore;
+	cin >> timeArrived;
+}
+

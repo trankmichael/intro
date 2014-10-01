@@ -1,0 +1,223 @@
+-------------------------------------------------------------------------------
+| Universal Machine Design
+| Homework 6
+| By: Jon Arbaugh, Michael Tran
+-------------------------------------------------------------------------------
+
+-------------------------------------------------------------------------------
+|
+| Registers
+|
+-------------------------------------------------------------------------------
+
+The registers will be stored as a static array of uint32_ts. The array will
+have a length of 8.
+
+The program counter will be a single uint32_t.
+
+-------------------------------------------------------------------------------
+|
+| Design of Segmented Memory
+|
+-------------------------------------------------------------------------------
+
+4) What representation will you use and what invariants will it satisfy?
+
+   Individual Segments
+
+        Each individual segment will be represented by a Hanson Sequence.
+        When a segment is mapped, a new sequence of the specified length
+        will be created.
+
+        Invariants:
+        - Length >= 0
+        - Each 32-bit word in the segment is all 0s after mapping
+
+   Storing Multiple Segments
+
+        Segments will be stored in a sequence as a pointer to their
+        respective sequence. So our segmented memory will be represented
+        as a sequence of sequences. Each segment (or sequence) pointer
+        will be identified by its index in the overarching sequence.
+        These indices will not change because when a segment is unmapped,
+        it will not be removed from the sequence. Instead, the sequence that
+        is pointed to will be freed and the index will be added to the
+        set of unmapped indices.
+
+        Invariants:
+        - Every index in the sequence corresponds to a pointer
+        - Every corresponding pointer will either point to a mapped
+          sequence or be set to NULL
+        - There will always be at least 1 segment. $m[0], which contains the
+          program instructions
+
+   Keeping Track of Mapped and Unmapped Sequences
+
+        There will be two sets to keep track of mapped and unmapped sequences.
+        Each set will contain the indices of the corresponding segment in the
+        overarching sequence. When a sequence is mapped, its index is added
+        to the mapped set and when it is unmapped, its index is removed from
+        the mapped set and put in the unmapped set.
+
+        Invariants:
+        - The intersection of the two sets (mapped and unmapped) is the
+          empty set
+        - The union of the two sets is a set of all the indices
+          of the sequences.
+        - The mapped set will always have a length of at least 1
+        - If a member is removed from one set, it is added to the other set
+        - New segments will be created only if the unmapped set is empty
+
+5) What test cases have you devised?
+
+   The test cases are detailed in the tester files.
+
+-------------------------------------------------------------------------------
+|
+| Design of UM software
+|
+-------------------------------------------------------------------------------
+
+Components of the UM
+
+           - segmented memory (segments.c, segments.h)
+           - UM (um.c, um.h)
+           - I/O (umio.c, umio.h)
+
+Component Interfaces
+
+          Segmented Memory (segments.h)
+
+          #define T SegMem_T
+          typedef struct T *T;
+
+          /*
+          * Creates a new SegMem_T and returns the pointer to it
+          */
+          T seg_new();
+
+          /*
+          * Return the value at seg_id and offset
+          */
+          uint32_t seg_load(T mem, uint32_t seg_id, uint32_t offset);
+
+          /*
+          * Take the value and store
+          * it in seg_id and offset
+          */
+          void seg_store(T mem, uint32_t value,
+                         uint32_t seg_id, uint32_t offset);
+
+          /*
+           * Create a new segment with the length specified
+           * with either an unmapped index or a new index
+           * Each word is initialized to 0
+           * The ID of the new segment is return
+           */
+           uint32_t seg_map(T mem, uint32_t length);
+
+           /*
+           * Unmaps the segment identified by seg_id
+           * The ID may be reused when a new segment is mapped
+           */
+           void seg_unmap(T mem, uint32_t id);
+
+           /*
+           * Frees the SegMem_T
+           */
+           void seg_free(T *mem);
+
+          #undef T
+
+          -----------------------------------------------------
+          
+          UM (um.h)
+
+          #define T UM_T
+          typedef struct T *T
+
+          /*
+          * Creates a new UM_T and returns a pointer to it
+          */
+          T um_new();
+
+          /*
+          * Called from main, starts the UM
+          * The program is read in (via I/O) and the UM begins
+          * to run the instructions
+          * Returns EXIT_SUCCESS or EXIT_FAILURE
+          */
+          int um_run(FILE *program);
+
+          /*
+          * Frees the UM_T
+          */
+          void um_free(T *mem);
+
+          ----------------------------------------------------
+
+          I/O (umio.h)
+
+          /*
+          * Maps a segment in memory and then reads the program
+          * into the segment, one word at a time
+          */
+          void load_program(FILE *program, void *memory);
+
+          /*
+          * Write the value in register c to the device (stdout)
+          * Must be in the range 0-255
+          */
+          void write(uint32_t *c);
+
+          /*
+          * Wait for input on the input device and load into register c
+          * Must be in the range 0-255
+          * If an EOF is read, register c will be loaded will
+          * a 32-bit word of all 1s
+          */
+          void read(uint32_t *c);
+
+Architecture
+
+        When the program is run, the UM run method will be called
+        and passed the pointer to the input file that contains the
+        program.
+
+        The UM will be the brains of the operation. It interfaces
+        with the Segmented Memory and the IO as it processes the
+        instructions.
+
+
+                        -----------------
+                        |               |
+                        |    Main       |
+                        |               |
+                        -----------------
+                                |
+                            Calls run()
+                                |
+                        ----------------
+                        |              |
+                        |     UM       |
+                        |              |
+                        ----------------
+                   Uses                Uses
+         --------------                 -------------
+         |            |                 |           |
+         |   SegMem   |                 |    IO     |
+         |            |                 |           |
+         --------------                 -------------
+
+         The UM and main are decoupled because the main function
+         is not responsible for any UM functionality except for
+         calling run and passing the file containg the instructions.
+
+Invariants
+
+        - If the memory pointer does not point to anything then the
+          UM is not running. The memory will always be initialized
+          after the UM starts.
+        - The program will always be stored in segment 0
+        - Program data will always be stored in segments above 0
+        - The UM will run instructions until it reaches HALT

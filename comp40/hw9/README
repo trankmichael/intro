@@ -1,0 +1,26 @@
+Michael Tran
+HW 9 RPN Calculator 
+
+Help Recieved: Rapha Osario, Kamden Segawa, Isobel Redelmeier
+
+Correctly Implemented:
+	operators
+	printing	
+Print Module:
+	The print module was implemented looping through the stack
+	and using recursion and divide by ten, while storing the results
+	on the stack and ignoring prints of zero unless in a single digit. 
+Departures from Calling Convention:
+        r4 was used in initialization and was not preserved. r4 was preserved
+        in section 'text' procedures, aside from this I did not depart from the
+        calling convention.
+Hours:
+	Analyzing: 8 hours
+	Writing: 10
+	Debugging: 15 hours 
+
+Overall:
+        This was favorite assigment I really enjoyed this class. Thank you to
+        all the faculty who set up this class and graded these long assignments.
+        This was my favorite class at Tufts so far, even though at many times it
+        was laughably overwhelming.  

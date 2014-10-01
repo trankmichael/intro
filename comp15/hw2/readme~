@@ -1,0 +1,43 @@
+Adding to Courses:
+    -use either the default constructor or the overloaded 
+     constructor with two strings passed as the arguments
+     ( COURSE ID and GRADE )
+    -Further courses then can be added using the
+     "addCourse" public member function with also two 
+     string arguments ( COURSE ID and GRADE )
+Adding to Semester:
+    -use either the default constructor or the overloaded 
+    -the overloaded constructor takes as arguments, a
+     pointer to courses, a STRING for the term, and an int
+     for the YEAR
+    -add a list of courses to any Semesterwith the addCourseList
+     member function
+	please note: this is best used with Default constr.
+	because by adding a list any present list on the
+	semester will be removed
+	-this was left on as a way to replace any mistaken course
+	 lists which were added
+    -add individual courses using the addCourse member function
+     this can be used freely as it will not remove the other list
+Adding to Transcript
+    -overloaded constr. takes in a STRING "ID", and a pointer to a
+     semester
+    -from there you can add to the array more and more semesters
+     using the addSemester function
+    -when using the default constructor you should set the STRING
+     studentID it is initialized to "" by default
+Adding to TOT
+    -I tested it using the default constructor
+    -I was not sure about using the overloaded constructor, to get
+     it to compile I had to use the '&' and Professor Hescott said 
+     it is not recommended that we use this
+    -instead I just individually added all the transcripts using
+     the add transcript member function
+     
+-each of the objects have their own print functions for testing
+-many setter and getter functions were unncessary and therefore
+ commented out
+     
+compiled using:
+
+g++ -Wall -Wextra main.cpp Transcript.cpp Semester.cpp Courses.cpp
